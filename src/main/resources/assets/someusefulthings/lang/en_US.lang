@@ -1,0 +1,10 @@
+itemGroup.someusefulthings=Some Useful Things
+
+//item
+item.invinciblering.name=Invincible ring
+item.limitlessTool.name=Multi Tool
+item.redStoneApple.name=Redstone apple
+
+
+//block
+tile.removeEnchantment.name=Remove Enchantment

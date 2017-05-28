@@ -1,0 +1,16 @@
+[
+{
+  "modid": "baublesaddons",
+  "name": "baublesaddons",
+  "description": "ring.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["BXZ"],
+  "credits": ".",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

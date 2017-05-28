@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "facing=east,work=false": { "model": "someusefulthings:block/remove_enchantment", "y": 90, "uvlock": true },
+        "facing=east,work=true": { "model": "someusefulthings:block/remove_enchantment_on", "y": 90, "uvlock": true },
+        "facing=north,work=false": { "model": "someusefulthings:block/remove_enchantment" },
+        "facing=north,work=true": { "model": "someusefulthings:block/remove_enchantment_on" },
+        "facing=south,work=false": { "model": "someusefulthings:block/remove_enchantment", "y": 180, "uvlock": true },
+        "facing=south,work=true": { "model": "someusefulthings:block/remove_enchantment_on", "y": 180, "uvlock": true },
+        "facing=west,work=false": { "model": "someusefulthings:block/remove_enchantment", "y": 270, "uvlock": true },
+        "facing=west,work=true": { "model": "someusefulthings:block/remove_enchantment_on", "y": 270, "uvlock": true }
+    }
+}

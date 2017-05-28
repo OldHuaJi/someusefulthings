@@ -1,0 +1,9 @@
+itemGroup.someusefulthings=实用物品
+
+//item
+item.invinciblering.name=无敌指环
+item.limitlessTool.name=多功能工具
+item.redStoneApple.name=红石苹果
+
+//block
+tile.removeEnchantment.name=祛魔器
