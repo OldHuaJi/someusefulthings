@@ -2,11 +2,14 @@ package com.bxzmod.someusefulthings.blocks;
 
 import java.util.List;
 
-import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
+import javax.annotation.Nullable;
 
+import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
+import com.bxzmod.someusefulthings.tileentity.RemoveEnchantmentTileEntity;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.*;
@@ -14,18 +17,25 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
-public class RemoveEnchantment extends Block 
+public class RemoveEnchantment extends BlockContainer 
 {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool WORK = PropertyBool.create("work");
@@ -66,17 +76,43 @@ public class RemoveEnchantment extends Block
     }
 	
 	@Override
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, ItemStack stack)
+    {
+		IBlockState origin = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, stack);
+        return origin.withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+    }
+	
+	/*@Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         IBlockState origin = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
         return origin.withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+    }*/
+	
+	/*@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+    {
+		worldIn.setBlockState(pos, state.cycleProperty(WORK));
+        return true;
+    }*/
+	
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+    {
+        if (!worldIn.isRemote)
+        {
+        	RemoveEnchantmentTileEntity te = (RemoveEnchantmentTileEntity) worldIn.getTileEntity(pos);
+            IItemHandler i = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
+            String msg = String.format("I: %s \n%s \n%s \n%s", i.getStackInSlot(0),i.getStackInSlot(1),i.getStackInSlot(2),i.getStackInSlot(3));
+            playerIn.addChatComponentMessage(new TextComponentString(msg));
+        }
+        return true;
     }
 	
 	@Override
-    @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list)
+    public TileEntity createNewTileEntity(World worldIn, int meta)
     {
-        list.add(new ItemStack(itemIn, 1, 0));
+        return new RemoveEnchantmentTileEntity();
     }
 	
 	@Override
@@ -86,9 +122,22 @@ public class RemoveEnchantment extends Block
     }
 	
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-	{
-	    return state;
-	}
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+		RemoveEnchantmentTileEntity te = (RemoveEnchantmentTileEntity) worldIn.getTileEntity(pos);
+
+        IItemHandler i = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
+
+        for (int m = i.getSlots() - 1; m >= 0; --m)
+        {
+            if (i.getStackInSlot(m) != null)
+            {
+                Block.spawnAsEntity(worldIn, pos, i.getStackInSlot(m));
+                ((IItemHandlerModifiable) i).setStackInSlot(m, null);
+            }
+        }
+
+        super.breakBlock(worldIn, pos, state);
+    }
 
 }

@@ -4,7 +4,15 @@ itemGroup.someusefulthings=Some Useful Things
 item.invinciblering.name=Invincible ring
 item.limitlessTool.name=Multi Tool
 item.redStoneApple.name=Redstone apple
-
+item.artifactsword.name=Artifact Sword
+item.compressedDiamondSword.name=Compressed Diamond Sword(Craft Only)
 
 //block
 tile.removeEnchantment.name=Remove Enchantment
+
+//achievement
+achievement.someusefulthings.infinity=Kill Creative
+achievement.someusefulthings.infinity.desc=Kill a player is CreativeMode
+
+//damagesource
+death.attack.infinity=%s was dead because of a infinity attack! 

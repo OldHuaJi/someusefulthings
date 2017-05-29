@@ -1,8 +1,10 @@
 package com.bxzmod.someusefulthings.client;
 
 import com.bxzmod.someusefulthings.blocks.BlockRenderLoader;
+import com.bxzmod.someusefulthings.entity.EntityRenderLoader;
 import com.bxzmod.someusefulthings.items.ItemRenderLoader;
 import com.bxzmod.someusefulthings.server.Common;
+import com.bxzmod.someusefulthings.throwable.ThrowableRenderLoader;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -16,6 +18,8 @@ public class Client extends Common
         super.preInit(event);
         new ItemRenderLoader(event);
         new BlockRenderLoader(event);
+        new EntityRenderLoader(event);
+        new ThrowableRenderLoader(event);
     }
 
     @Override

@@ -17,13 +17,14 @@ public class ItemRenderLoader {
 		registerRender(ItemLoader.invinciblering);
 		registerRender(ItemLoader.limitlesstool);
 		registerRender(ItemLoader.redstoneapple);
+		registerRender(ItemLoader.artifactsword);
+		registerRender(ItemLoader.compressedDiamondSword);
 	}
 	
     @SideOnly(Side.CLIENT)
     private static void registerRender(Item item)
     {
-        String name = GameData.getItemRegistry().getNameForObject(item).toString();
-    	ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(name, "inventory");
+    	ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(item.getRegistryName(), "inventory");
         final int DEFAULT_ITEM_SUBTYPE = 0;
         ModelLoader.setCustomModelResourceLocation(item, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
     }

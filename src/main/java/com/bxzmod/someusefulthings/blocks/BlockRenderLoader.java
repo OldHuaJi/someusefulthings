@@ -22,20 +22,16 @@ public class BlockRenderLoader
     public BlockRenderLoader(FMLPreInitializationEvent event)
     {
         //registerRender(BlockLoader.removeEnchantment, BlockLoader.removeEnchantmentBlock);
-		//registerRenderBlockState(BlockLoader.removeEnchantment, BlockLoader.removeEnchantmentBlock, 0, "remove_enchantment");
-		//OBJLoader.INSTANCE.addDomain(Info.MODID);
-		//registerStateMapper(BlockLoader.removeEnchantment, new StateMap.Builder().ignore(RemoveEnchantment.FACING).build());
-		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("someusefulthings:remove_enchantment", "inventory");
-		ResourceLocation location = new ResourceLocation(Info.MODID, "remove_enchantment");
-		ModelLoader.setCustomModelResourceLocation(BlockLoader.removeEnchantmentBlock, 0, itemModelResourceLocation);
-		//ModelLoader.registerItemVariants(BlockLoader.removeEnchantmentBlock, location);
+		registerStateMapper(BlockLoader.removeEnchantment, new StateMap.Builder().build());
+		
+		registerRenderBlockState(BlockLoader.removeEnchantment, BlockLoader.removeEnchantmentBlock, 0, "remove_enchantment");
+
     }
 	
 	@SideOnly(Side.CLIENT)
     private static void registerRender(Block block, ItemBlock item)
     {
-        String name = GameData.getBlockRegistry().getNameForObject(block).toString();
-        ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(name, "inventory");
+        ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(block.getRegistryName(), "inventory");
         final int DEFAULT_ITEM_SUBTYPE = 0;
         ModelLoader.setCustomModelResourceLocation(item, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
     }
@@ -45,7 +41,7 @@ public class BlockRenderLoader
     {
         ResourceLocation location = new ResourceLocation(Info.MODID, name);
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(location, "inventory"));
-        ModelLoader.registerItemVariants(item, location);
+        //ModelLoader.registerItemVariants(item, location);
     }
 	
 	@SideOnly(Side.CLIENT)

@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-		"top": "someusefulthings:blocks/remove_enchantment_side",
-        "front": "someusefulthings:blocks/remove_enchantment_on",
-        "side": "someusefulthings:blocks/remove_enchantment_side"
-    }
-}

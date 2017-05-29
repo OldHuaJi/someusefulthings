@@ -4,6 +4,15 @@ itemGroup.someusefulthings=实用物品
 item.invinciblering.name=无敌指环
 item.limitlessTool.name=多功能工具
 item.redStoneApple.name=红石苹果
+item.artifactsword.name=一击必杀
+item.compressedDiamondSword.name=压缩钻石剑(仅用于合成)
 
 //block
 tile.removeEnchantment.name=祛魔器
+
+//achievement
+achievement.someusefulthings.infinity=杀死创造
+achievement.someusefulthings.infinity.desc=杀死一个处于创造模式的玩家
+
+//damagesource
+death.attack.infinity=%s 被一击必杀了！
