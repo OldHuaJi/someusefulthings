@@ -1,6 +1,7 @@
 package com.bxzmod.someusefulthings.gui.client;
 
 import com.bxzmod.someusefulthings.Info;
+import com.bxzmod.someusefulthings.gui.server.ReinforcementMachineContainer;
 import com.bxzmod.someusefulthings.gui.server.RemoveEnchantmentContainer;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -8,25 +9,23 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
-public class RemoveEnchantmentGuiContainer extends GuiContainer 
+public class ReinforcementMachineGuiContainer extends GuiContainer 
 {
+
 	private static final String TEXTURE_PATH = Info.MODID + ":" + "textures/gui/container/RemoveEnchantment.png";
     private static final ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
     
-    RemoveEnchantmentContainer inventory;
+    ReinforcementMachineContainer inventory;
     
     int totalWorkTime;
 
-	public RemoveEnchantmentGuiContainer(Container inventorySlotsIn) 
+	public ReinforcementMachineGuiContainer(Container inventorySlotsIn) 
 	{
 		super(inventorySlotsIn);
 		this.xSize = 176;
         this.ySize = 133;
-		this.inventory = (RemoveEnchantmentContainer) inventorySlotsIn;
+		this.inventory = (ReinforcementMachineContainer) inventorySlotsIn;
 		this.totalWorkTime = this.inventory.getTotalWorkTime();
 	}
 
@@ -50,7 +49,7 @@ public class RemoveEnchantmentGuiContainer extends GuiContainer
 	@Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-		String title = I18n.format("tile.removeEnchantment.name");
+		String title = I18n.format("tile.reinforcementMachine.name");
 		this.fontRendererObj.drawString(title, (this.xSize - this.fontRendererObj.getStringWidth(title)) / 2, 6, 0x404040);
 		
     }

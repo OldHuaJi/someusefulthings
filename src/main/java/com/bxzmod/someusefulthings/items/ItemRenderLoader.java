@@ -19,6 +19,7 @@ public class ItemRenderLoader {
 		registerRender(ItemLoader.redstoneapple);
 		registerRender(ItemLoader.artifactsword);
 		registerRender(ItemLoader.compressedDiamondSword);
+		registerRender(ItemLoader.portableInventoryItem);
 	}
 	
     @SideOnly(Side.CLIENT)

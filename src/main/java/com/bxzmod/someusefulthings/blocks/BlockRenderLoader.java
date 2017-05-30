@@ -23,8 +23,12 @@ public class BlockRenderLoader
     {
         //registerRender(BlockLoader.removeEnchantment, BlockLoader.removeEnchantmentBlock);
 		registerStateMapper(BlockLoader.removeEnchantment, new StateMap.Builder().build());
+		registerStateMapper(BlockLoader.copyEnchantment, new StateMap.Builder().build());
+		registerStateMapper(BlockLoader.reinforcementMachine, new StateMap.Builder().build());
 		
 		registerRenderBlockState(BlockLoader.removeEnchantment, BlockLoader.removeEnchantmentBlock, 0, "remove_enchantment");
+		registerRenderBlockState(BlockLoader.copyEnchantment, BlockLoader.copyEnchantmentBlock, 0, "copy_enchantment");
+		registerRenderBlockState(BlockLoader.reinforcementMachine, BlockLoader.reinforcementMachineBlock, 0, "reinforcement_machine");
 
     }
 	

@@ -29,6 +29,7 @@ public class ItemLoader
 	
 	public static Item invinciblering = new InvincibleRing();
 	public static Item compressedDiamondSword = new CompressedDiamondSword();
+	public static Item portableInventoryItem = new PortableInventoryItem();
 	
 	public static ArtifactSword artifactsword = new ArtifactSword(LIMITLESS);
 	
@@ -41,6 +42,7 @@ public class ItemLoader
         register(invinciblering);
         register(compressedDiamondSword);
         register(artifactsword);
+        register(portableInventoryItem);
         registerTool(limitlesstool);
         registerFood(redstoneapple);
     }

@@ -190,7 +190,7 @@ public class UniversalTool extends ItemTool
                 if (state.getBlock().isToolEffective(type, state))
                     return efficiencyOnProperMaterial;
             }
-        return this.effectiveBlocks.contains(state.getBlock()) ? this.efficiencyOnProperMaterial : 5.0F;
+        return this.effectiveBlocks.contains(state.getBlock()) ? this.efficiencyOnProperMaterial : 10.0F;
     }
 	
 	@Override
@@ -212,5 +212,11 @@ public class UniversalTool extends ItemTool
 
         return true;
     }
+	
+	@Override
+	public boolean canHarvestBlock(IBlockState blockIn)
+	{
+		return true;
+	}
 
 }

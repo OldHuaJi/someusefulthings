@@ -1,5 +1,6 @@
 package com.bxzmod.someusefulthings.recipes;
 
+import com.bxzmod.someusefulthings.blocks.BlockLoader;
 import com.bxzmod.someusefulthings.config.ConfigLoader;
 import com.bxzmod.someusefulthings.items.ItemLoader;
 
@@ -11,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class CraftingLoader
 {
@@ -20,8 +22,8 @@ public class CraftingLoader
     {
     	limitlesstoolwithnbt.addEnchantment(Enchantment.getEnchantmentByID(21), 10);
     	limitlesstoolwithnbt.addEnchantment(Enchantment.getEnchantmentByID(35), 10);
-    	limitlesstoolwithnbt1.addEnchantment(Enchantment.getEnchantmentByID(21), 1);
-    	limitlesstoolwithnbt1.addEnchantment(Enchantment.getEnchantmentByID(33), 10);
+    	limitlesstoolwithnbt1.addEnchantment(Enchantment.getEnchantmentByID(21), 10);
+    	limitlesstoolwithnbt1.addEnchantment(Enchantment.getEnchantmentByID(33), 1);
         registerRecipe();
         registerSmelting();
         registerFuel();
@@ -42,6 +44,10 @@ public class CraftingLoader
     	        {
     	                "PAS", "WDH", " # ", 'P', Items.DIAMOND_PICKAXE, 'A', Items.DIAMOND_AXE, 'S', Items.DIAMOND_SHOVEL, 'W', Items.DIAMOND_SWORD, 'D', Item.getItemFromBlock(Blocks.DIAMOND_BLOCK), 'H', Items.DIAMOND_HOE, '#', Items.SHEARS
     	        });
+    	GameRegistry.addShapedRecipe(limitlesstoolwithnbt1, new Object[]
+    	        {
+    	                "SAP", "WDH", " # ", 'P', Items.DIAMOND_PICKAXE, 'A', Items.DIAMOND_AXE, 'S', Items.DIAMOND_SHOVEL, 'W', Items.DIAMOND_SWORD, 'D', Item.getItemFromBlock(Blocks.DIAMOND_BLOCK), 'H', Items.DIAMOND_HOE, '#', Items.SHEARS
+    	        });
     	GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.artifactsword), new Object[]
     	        {
     	                "###", "#*#", "###", '#', Items.NETHER_STAR, '*', ItemLoader.compressedDiamondSword
@@ -50,8 +56,26 @@ public class CraftingLoader
     	        {
     	                "###", "###", "###", '#', Items.DIAMOND_SWORD
     	        });
-    	GameRegistry.addShapelessRecipe(limitlesstoolwithnbt, limitlesstoolwithnbt1);
-    	GameRegistry.addShapelessRecipe(limitlesstoolwithnbt1, limitlesstoolwithnbt);
+    	GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt, new Object[]
+    	        {
+    	                "#  ", "   ", "   ", '#', "limitlesstool"
+    	        }));
+    	GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt1, new Object[]
+    	        {
+    	                " # ", "   ", "   ", '#', "limitlesstool"
+    	        }));
+    	GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.removeEnchantmentBlock), new Object[]
+    	        {
+    	                " # ", "#*#", " # ", '#', Items.DIAMOND, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE)
+    	        });
+    	GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.reinforcementMachineBlock), new Object[]
+    	        {
+    	                " # ", "#*#", " # ", '#', Items.NETHER_STAR, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE)
+    	        });
+    	GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.copyEnchantmentBlock), new Object[]
+    	        {
+    	                "###", "#*#", "###", '#', Items.ENCHANTED_BOOK, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE)
+    	        });
 
     }
 

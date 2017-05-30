@@ -4,10 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class RemoveEnchantmentItemBlock extends ItemBlock 
+public class ReinforcementMachineItemBlock extends ItemBlock 
 {
 
-	public RemoveEnchantmentItemBlock(Block block) 
+	public ReinforcementMachineItemBlock(Block block) 
 	{
 		super(block);
 		this.setMaxDamage(0);
@@ -25,5 +25,6 @@ public class RemoveEnchantmentItemBlock extends ItemBlock
 	{
 		return super.getUnlocalizedName();
 	}
+
 
 }

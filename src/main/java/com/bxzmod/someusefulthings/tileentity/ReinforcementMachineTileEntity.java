@@ -3,10 +3,10 @@ package com.bxzmod.someusefulthings.tileentity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.bxzmod.someusefulthings.blocks.ReinforcementMachine;
 import com.bxzmod.someusefulthings.blocks.RemoveEnchantment;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,19 +20,21 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class RemoveEnchantmentTileEntity extends TileEntity implements ITickable
+public class ReinforcementMachineTileEntity extends TileEntity implements ITickable
 {
+
 	private static final Logger LOGGER = LogManager.getLogger();
 	private static final int workTotalTime = 200;
+	boolean flag = false;
 
-	public RemoveEnchantmentTileEntity() 
+	public ReinforcementMachineTileEntity() 
 	{
 		
 	}
 	
 	protected int workTime = 0;
 
-    protected ItemStackHandler iInventory = new ItemStackHandler(4);
+    protected ItemStackHandler iInventory = new ItemStackHandler(3);
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing)
@@ -80,61 +82,34 @@ public class RemoveEnchantmentTileEntity extends TileEntity implements ITickable
 		{
 			ItemStack itemStack_0 = iInventory.extractItem(0, 1, true);
 			ItemStack itemStack_1 = iInventory.extractItem(1, 1, true);
-			ItemStack itemStack_2 = new ItemStack(Items.ENCHANTED_BOOK);
-			ItemStack itemStack_3 = new ItemStack(Items.DIAMOND_BOOTS);
+			ItemStack itemStack_2 = new ItemStack(Items.DIAMOND_BOOTS);
 			IBlockState state = this.worldObj.getBlockState(pos);
 
-			if (itemStack_0 != null && itemStack_1 != null && iInventory.insertItem(2, itemStack_2, true) == null
-					&& iInventory.insertItem(3, itemStack_3, true) == null) {
-				if (itemStack_0.isItemEnchanted()) {
-					this.worldObj.setBlockState(pos, state.withProperty(RemoveEnchantment.WORK, Boolean.TRUE));
-					if (++this.workTime >= workTotalTime) {
-						this.workTime = 0;
-						NBTTagList list = itemStack_0.getEnchantmentTagList();
-						if (list.tagCount()>1) {
-							NBTTagCompound ench = list.getCompoundTagAt(0);
-							list.removeTag(0);
-							NBTTagList list1 = new NBTTagList();
-							list1.appendTag(ench);
-							NBTTagCompound nbt = new NBTTagCompound();
-							nbt.setTag("StoredEnchantments", list1);
-							itemStack_2.setTagCompound(nbt);
-							// itemStack = iInventory.extractItem(0, 1, false);
-							int amount = itemStack_1.stackSize;
-							if (amount >= 1)
-								iInventory.extractItem(1, 1, false);
-							iInventory.insertItem(2, itemStack_2, false);
-							this.markDirty();
+			if (itemStack_0 != null && itemStack_1 != null && iInventory.insertItem(2, itemStack_2, true) == null) {
+				this.worldObj.setBlockState(pos, state.withProperty(ReinforcementMachine.WORK, Boolean.TRUE));
+				if (++this.workTime >= workTotalTime) {
+					this.workTime = 0;
+					if (itemStack_0.hasTagCompound()) {
+						if(itemStack_0.getTagCompound().getByte("Unbreakable") != (byte) 1){
+						itemStack_0.getTagCompound().setByte("Unbreakable", (byte) 1);
+						iInventory.extractItem(1, 1, false);
+						itemStack_2 = iInventory.extractItem(0, 1, false);
+						iInventory.insertItem(2, itemStack_2, false);
+						this.markDirty();
 						}
-						else {
-							if (list.tagCount() == 1) {
-								NBTTagCompound ench = list.getCompoundTagAt(0);
-								list.removeTag(0);
-								NBTTagList list1 = new NBTTagList();
-								list1.appendTag(ench);
-								NBTTagCompound nbt = new NBTTagCompound();
-								nbt.setTag("StoredEnchantments", list1);
-								itemStack_2.setTagCompound(nbt);
-								int amount = itemStack_1.stackSize;
-								if (amount >= 1)
-									iInventory.extractItem(1, 1, false);
-								iInventory.insertItem(2, itemStack_2, false);
-							}
-							itemStack_0.getTagCompound().removeTag("ench");
-							if (itemStack_0.getTagCompound().hasNoTags())
-		                    {
-								itemStack_0.setTagCompound((NBTTagCompound)null);
-		                    }
-							itemStack_3 = iInventory.extractItem(0, 1, false);
-							iInventory.insertItem(3, itemStack_3, false);
-							this.markDirty();
-						}
+
+					}else{
+						NBTTagCompound nbt = new NBTTagCompound();
+						nbt.setByte("Unbreakable", (byte) 1);
+						itemStack_0.setTagCompound(nbt);
+						iInventory.extractItem(1, 1, false);
+						itemStack_2 = iInventory.extractItem(0, 1, false);
+						iInventory.insertItem(2, itemStack_2, false);
+						this.markDirty();
 					}
 				}
-			}
-			else 
-			{
-				this.worldObj.setBlockState(pos, state.withProperty(RemoveEnchantment.WORK, Boolean.FALSE));
+			} else {
+				this.worldObj.setBlockState(pos, state.withProperty(ReinforcementMachine.WORK, Boolean.FALSE));
 				this.workTime = 0;
 			}
 		}

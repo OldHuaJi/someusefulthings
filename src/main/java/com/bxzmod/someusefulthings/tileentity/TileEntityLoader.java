@@ -11,6 +11,9 @@ public class TileEntityLoader {
 	public TileEntityLoader(FMLPreInitializationEvent event)
     {
         registerTileEntity(RemoveEnchantmentTileEntity.class, "RemoveEnchantment");
+        registerTileEntity(CopyEnchantmentTileEntity.class, "CopyEnchantment");
+        registerTileEntity(ReinforcementMachineTileEntity.class, "ReinforcementMachine");
+        
     }
 
     public void registerTileEntity(Class<? extends TileEntity> tileEntityClass, String id)

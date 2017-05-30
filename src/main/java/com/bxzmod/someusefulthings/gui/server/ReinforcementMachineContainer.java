@@ -1,13 +1,13 @@
 package com.bxzmod.someusefulthings.gui.server;
 
 import com.bxzmod.someusefulthings.gui.GuiLoader;
+import com.bxzmod.someusefulthings.tileentity.ReinforcementMachineTileEntity;
 import com.bxzmod.someusefulthings.tileentity.RemoveEnchantmentTileEntity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -16,36 +16,34 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class RemoveEnchantmentContainer extends Container 
+public class ReinforcementMachineContainer extends Container 
 {
-	//private ItemStackHandler items = new ItemStackHandler(4);
-	private IItemHandler items;
+
+private IItemHandler items;
 	
-	protected Slot ench;
-    protected Slot book;
-    protected Slot enchbook;
-    protected Slot noench;
+	protected Slot hasDamgae;
+    protected Slot nether_start;
+    protected Slot unbreakable;
     
-    protected RemoveEnchantmentTileEntity te;
+    protected ReinforcementMachineTileEntity te;
 
     protected int workTime = 0;
 
-	public RemoveEnchantmentContainer(EntityPlayer player, TileEntity tileEntity) 
+	public ReinforcementMachineContainer(EntityPlayer player, TileEntity tileEntity) 
 	{
 		super();
 		
-		this.te = (RemoveEnchantmentTileEntity) tileEntity;
+		this.te = (ReinforcementMachineTileEntity) tileEntity;
 		this.items = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
 		
-		this.addSlotToContainer(this.ench = new SlotItemHandler(items, 0, 17, 20)
+		this.addSlotToContainer(this.hasDamgae = new SlotItemHandler(items, 0, 17, 20)
         {
 			@Override
             public boolean isItemValid(ItemStack stack)
             {
-                return stack.isItemEnchanted();
+                return stack.getItem().isDamageable() && !(stack.hasTagCompound() && stack.getTagCompound().getByte("Unbreakable") == (byte) 1);
             }
 			
 			@Override
@@ -55,12 +53,12 @@ public class RemoveEnchantmentContainer extends Container
             }
         });
 
-        this.addSlotToContainer(this.book = new SlotItemHandler(items, 1, 53, 20)
+        this.addSlotToContainer(this.nether_start = new SlotItemHandler(items, 1, 53, 20)
         {
         	 @Override
              public boolean isItemValid(ItemStack stack)
              {
-                 return stack != null && stack.getItem() == Items.BOOK && super.isItemValid(stack);
+                 return stack != null && stack.getItem() == Items.NETHER_STAR && super.isItemValid(stack);
              }
         	
         	@Override
@@ -70,7 +68,7 @@ public class RemoveEnchantmentContainer extends Container
             }
         });
 
-        this.addSlotToContainer(this.enchbook = new SlotItemHandler(items, 2, 107, 20)
+        this.addSlotToContainer(this.unbreakable = new SlotItemHandler(items, 2, 107, 20)
         {
         	@Override
             public boolean isItemValid(ItemStack stack)
@@ -79,14 +77,6 @@ public class RemoveEnchantmentContainer extends Container
             }
         });
 
-        this.addSlotToContainer(this.noench = new SlotItemHandler(items, 3, 143, 20)
-        {
-        	@Override
-            public boolean isItemValid(ItemStack stack)
-            {
-                return false;
-            }
-        });
         for (int i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
@@ -122,21 +112,21 @@ public class RemoveEnchantmentContainer extends Container
 
         boolean isMerged = false;
 
-        if (index >= 0 && index < 4)
+        if (index >= 0 && index < 3)
         {
-            isMerged = mergeItemStack(newStack, 4, 40, true);
+            isMerged = mergeItemStack(newStack, 3, 39, true);
         }
-        else if (index >= 4 && index < 31)
+        else if (index >= 3 && index < 30)
         {
-            isMerged = !ench.getHasStack() && newStack.stackSize <= 1 && mergeItemStack(newStack, 0, 1, false)
-                    || mergeItemStack(newStack, 1, 2, false)
-                    || mergeItemStack(newStack, 31, 40, false);
+            isMerged = !hasDamgae.getHasStack() && newStack.stackSize <= 1 && mergeItemStack(newStack, 0, 1, false)
+                    || mergeItemStack(newStack, 0, 2, false)
+                    || mergeItemStack(newStack, 30, 39, false);
         }
-        else if (index >= 31 && index < 40)
+        else if (index >= 30 && index < 39)
         {
-            isMerged = !ench.getHasStack() && newStack.stackSize <= 1 && mergeItemStack(newStack, 0, 1, false)
-                    || mergeItemStack(newStack, 1, 2, false)
-                    || mergeItemStack(newStack, 4, 31, false);
+            isMerged = !hasDamgae.getHasStack() && newStack.stackSize <= 1 && mergeItemStack(newStack, 0, 1, false)
+                    || mergeItemStack(newStack, 0, 2, false)
+                    || mergeItemStack(newStack, 3, 30, false);
         }
 
         if (!isMerged)
@@ -167,7 +157,7 @@ public class RemoveEnchantmentContainer extends Container
 
         for (IContainerListener i : this.listeners)
         {
-            i.sendProgressBarUpdate(this, GuiLoader.DATA_R_E, this.workTime);
+            i.sendProgressBarUpdate(this, GuiLoader.DATA_R_M, this.workTime);
         }
     }
 	
@@ -179,7 +169,7 @@ public class RemoveEnchantmentContainer extends Container
 
         switch (id)
         {
-        case GuiLoader.DATA_R_E:
+        case GuiLoader.DATA_R_M:
             this.workTime = data;
             break;
         default:

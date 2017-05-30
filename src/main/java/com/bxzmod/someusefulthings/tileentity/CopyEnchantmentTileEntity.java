@@ -3,10 +3,10 @@ package com.bxzmod.someusefulthings.tileentity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.bxzmod.someusefulthings.blocks.CopyEnchantment;
 import com.bxzmod.someusefulthings.blocks.RemoveEnchantment;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,12 +20,14 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class RemoveEnchantmentTileEntity extends TileEntity implements ITickable
+public class CopyEnchantmentTileEntity extends TileEntity implements ITickable
 {
 	private static final Logger LOGGER = LogManager.getLogger();
-	private static final int workTotalTime = 200;
+	private static final int workTotalTime = 20;
+	ItemStack temp = new ItemStack(Items.DYE, 16 , 4);
+	boolean flag = false;
 
-	public RemoveEnchantmentTileEntity() 
+	public CopyEnchantmentTileEntity() 
 	{
 		
 	}
@@ -79,62 +81,28 @@ public class RemoveEnchantmentTileEntity extends TileEntity implements ITickable
 		if (!this.worldObj.isRemote) 
 		{
 			ItemStack itemStack_0 = iInventory.extractItem(0, 1, true);
-			ItemStack itemStack_1 = iInventory.extractItem(1, 1, true);
-			ItemStack itemStack_2 = new ItemStack(Items.ENCHANTED_BOOK);
-			ItemStack itemStack_3 = new ItemStack(Items.DIAMOND_BOOTS);
+			ItemStack itemStack_1 = iInventory.extractItem(1, 16, true);
+			ItemStack itemStack_2 = iInventory.extractItem(2, 1, true);
+			ItemStack itemStack_3 = new ItemStack(Items.ENCHANTED_BOOK);
 			IBlockState state = this.worldObj.getBlockState(pos);
+			
+			flag = itemStack_1 != null && itemStack_1.toString().equalsIgnoreCase(temp.toString());
 
-			if (itemStack_0 != null && itemStack_1 != null && iInventory.insertItem(2, itemStack_2, true) == null
-					&& iInventory.insertItem(3, itemStack_3, true) == null) {
-				if (itemStack_0.isItemEnchanted()) {
-					this.worldObj.setBlockState(pos, state.withProperty(RemoveEnchantment.WORK, Boolean.TRUE));
+			if (itemStack_0 != null && flag && itemStack_2 != null && iInventory.insertItem(3, itemStack_3, true) == null ) {
+				if (itemStack_0.getItem().equals(Items.ENCHANTED_BOOK)) {
+					this.worldObj.setBlockState(pos, state.withProperty(CopyEnchantment.WORK, Boolean.TRUE));
 					if (++this.workTime >= workTotalTime) {
 						this.workTime = 0;
-						NBTTagList list = itemStack_0.getEnchantmentTagList();
-						if (list.tagCount()>1) {
-							NBTTagCompound ench = list.getCompoundTagAt(0);
-							list.removeTag(0);
-							NBTTagList list1 = new NBTTagList();
-							list1.appendTag(ench);
-							NBTTagCompound nbt = new NBTTagCompound();
-							nbt.setTag("StoredEnchantments", list1);
-							itemStack_2.setTagCompound(nbt);
-							// itemStack = iInventory.extractItem(0, 1, false);
-							int amount = itemStack_1.stackSize;
-							if (amount >= 1)
-								iInventory.extractItem(1, 1, false);
-							iInventory.insertItem(2, itemStack_2, false);
-							this.markDirty();
-						}
-						else {
-							if (list.tagCount() == 1) {
-								NBTTagCompound ench = list.getCompoundTagAt(0);
-								list.removeTag(0);
-								NBTTagList list1 = new NBTTagList();
-								list1.appendTag(ench);
-								NBTTagCompound nbt = new NBTTagCompound();
-								nbt.setTag("StoredEnchantments", list1);
-								itemStack_2.setTagCompound(nbt);
-								int amount = itemStack_1.stackSize;
-								if (amount >= 1)
-									iInventory.extractItem(1, 1, false);
-								iInventory.insertItem(2, itemStack_2, false);
-							}
-							itemStack_0.getTagCompound().removeTag("ench");
-							if (itemStack_0.getTagCompound().hasNoTags())
-		                    {
-								itemStack_0.setTagCompound((NBTTagCompound)null);
-		                    }
-							itemStack_3 = iInventory.extractItem(0, 1, false);
-							iInventory.insertItem(3, itemStack_3, false);
-							this.markDirty();
-						}
+						itemStack_3 = itemStack_0.copy();
+						iInventory.extractItem(1, 16, false);
+						iInventory.extractItem(2, 1, false);
+						iInventory.insertItem(3, itemStack_3, false);
+						this.markDirty();
 					}
+
 				}
-			}
-			else 
-			{
-				this.worldObj.setBlockState(pos, state.withProperty(RemoveEnchantment.WORK, Boolean.FALSE));
+			} else {
+				this.worldObj.setBlockState(pos, state.withProperty(CopyEnchantment.WORK, Boolean.FALSE));
 				this.workTime = 0;
 			}
 		}
