@@ -23,9 +23,7 @@ import net.minecraftforge.items.ItemStackHandler;
 public class ReinforcementMachineTileEntity extends TileEntity implements ITickable
 {
 
-	private static final Logger LOGGER = LogManager.getLogger();
 	private static final int workTotalTime = 200;
-	boolean flag = false;
 
 	public ReinforcementMachineTileEntity() 
 	{

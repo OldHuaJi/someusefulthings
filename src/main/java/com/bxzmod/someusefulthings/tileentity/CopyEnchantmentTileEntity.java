@@ -22,10 +22,7 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class CopyEnchantmentTileEntity extends TileEntity implements ITickable
 {
-	private static final Logger LOGGER = LogManager.getLogger();
-	private static final int workTotalTime = 20;
-	ItemStack temp = new ItemStack(Items.DYE, 16 , 4);
-	boolean flag = false;
+	private static final int workTotalTime = 200;
 
 	public CopyEnchantmentTileEntity() 
 	{
@@ -85,10 +82,8 @@ public class CopyEnchantmentTileEntity extends TileEntity implements ITickable
 			ItemStack itemStack_2 = iInventory.extractItem(2, 1, true);
 			ItemStack itemStack_3 = new ItemStack(Items.ENCHANTED_BOOK);
 			IBlockState state = this.worldObj.getBlockState(pos);
-			
-			flag = itemStack_1 != null && itemStack_1.toString().equalsIgnoreCase(temp.toString());
 
-			if (itemStack_0 != null && flag && itemStack_2 != null && iInventory.insertItem(3, itemStack_3, true) == null ) {
+			if (itemStack_0 != null && itemStack_1 != null && itemStack_2 != null && iInventory.insertItem(3, itemStack_3, true) == null && itemStack_1.stackSize == 16) {
 				if (itemStack_0.getItem().equals(Items.ENCHANTED_BOOK)) {
 					this.worldObj.setBlockState(pos, state.withProperty(CopyEnchantment.WORK, Boolean.TRUE));
 					if (++this.workTime >= workTotalTime) {
