@@ -9,6 +9,7 @@ import com.bxzmod.someusefulthings.entity.EntityLoader;
 import com.bxzmod.someusefulthings.events.EventLoader;
 import com.bxzmod.someusefulthings.gui.GuiLoader;
 import com.bxzmod.someusefulthings.items.ItemLoader;
+import com.bxzmod.someusefulthings.network.NetworkLoader;
 import com.bxzmod.someusefulthings.oredictionary.OreDictionaryLoader;
 import com.bxzmod.someusefulthings.recipes.CraftingLoader;
 import com.bxzmod.someusefulthings.throwable.ThrowableLoader;
@@ -31,6 +32,7 @@ public class Common
 		new TileEntityLoader(event);
 		new EntityLoader(event);
 		new ThrowableLoader(event);
+		new NetworkLoader(event);
 
     }
 

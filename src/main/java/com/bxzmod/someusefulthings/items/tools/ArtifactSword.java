@@ -1,5 +1,6 @@
 package com.bxzmod.someusefulthings.items.tools;
 
+import java.util.List;
 import java.util.Set;
 
 import com.bxzmod.someusefulthings.achievement.AchievementLoader;
@@ -10,6 +11,7 @@ import com.bxzmod.someusefulthings.throwable.InfinityArrow;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +25,10 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ArtifactSword extends ItemSword
 {
@@ -87,13 +92,22 @@ public class ArtifactSword extends ItemSword
         return true;
     }
     
-    /*@Override
+    @SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) 
+	{
+		tooltip.add(I18n.format("tooltip.artifactSword", TextFormatting.GOLD));
+	}
+    
+    @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
     {
         if (!worldIn.isRemote)
         {
-            worldIn.spawnEntityInWorld(new InfinityArrow(worldIn, playerIn));
+        	InfinityArrow e = new InfinityArrow(worldIn, playerIn);
+        	e.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 4.5F, 0.0F);
+            worldIn.spawnEntityInWorld(e);
         }
         return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
-    }*/
+    }
 }

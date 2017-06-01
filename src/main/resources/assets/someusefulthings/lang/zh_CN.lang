@@ -21,3 +21,14 @@ death.attack.infinity=%s 被一击必杀了！
 
 //gui
 gui.PortableInventory=背包
+
+//tooltip
+tooltip.redStoneApple=%s生命恢复 V (5:00)
+tooltip.redStoneApple_1=%s生命提升 V (5:00)
+tooltip.redStoneApple_2=%s红石力量?!
+tooltip.artifactSword=%s只需要点一下就够了!
+tooltip.limitlessTool=%s镐、斧、铲、锄、剪、剑，还有谁？
+tooltip.invincibleRing=%s准备开始第二轮了么，混沌守卫？
+tooltip.removeEnchantment=%s洗去那些铭文!
+tooltip.reinforcementMachine=%s不会损坏，只是这代价?
+tooltip.copyEnchantment=%s不，你这是在盗版!

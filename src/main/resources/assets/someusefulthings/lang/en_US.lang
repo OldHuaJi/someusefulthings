@@ -21,3 +21,9 @@ death.attack.infinity=%s was dead because of a infinity attack!
 
 //gui
 gui.PortableInventory=Backpack
+
+//tooltip
+tooltip.redStoneApple=%sRegeneration V (5:00)
+tooltip.redStoneApple_1=%sHealth_boost V (5:00)
+tooltip.redStoneApple_2=%sRedstone power?!
+tooltip.artifactSword=Just one click!

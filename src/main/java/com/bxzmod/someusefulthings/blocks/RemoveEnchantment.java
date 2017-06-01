@@ -17,6 +17,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.*;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,6 +30,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -84,26 +86,11 @@ public class RemoveEnchantment extends BlockContainer
         return origin.withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 	
-	/*@Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
-    {
-        IBlockState origin = super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
-        return origin.withProperty(FACING, placer.getHorizontalFacing().getOpposite());
-    }*/
-	
-	/*@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
-    {
-		worldIn.setBlockState(pos, state.cycleProperty(WORK));
-        return true;
-    }*/
-	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         if (!worldIn.isRemote)
         {
-        	//RemoveEnchantmentTileEntity te = (RemoveEnchantmentTileEntity) worldIn.getTileEntity(pos);
         	int id = GuiLoader.GUI_R_E;
             playerIn.openGui(Main.instance, id, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
@@ -141,4 +128,10 @@ public class RemoveEnchantment extends BlockContainer
         super.breakBlock(worldIn, pos, state);
     }
 
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) 
+	{
+		tooltip.add(I18n.format("tooltip.removeEnchantment", TextFormatting.BLUE));
+	}
 }

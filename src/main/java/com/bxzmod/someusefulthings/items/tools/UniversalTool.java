@@ -1,13 +1,18 @@
 package com.bxzmod.someusefulthings.items.tools;
 
+import java.util.List;
 import java.util.Set;
 
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
+import com.bxzmod.someusefulthings.items.ItemLoader;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -20,10 +25,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class UniversalTool extends ItemTool 
 {
@@ -219,4 +227,23 @@ public class UniversalTool extends ItemTool
 		return true;
 	}
 
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) 
+	{
+		tooltip.add(I18n.format("tooltip.limitlessTool", TextFormatting.YELLOW));
+	}
+
+	@Override
+	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) 
+	{
+		ItemStack limitlesstoolwithnbt = new ItemStack(itemIn);
+		ItemStack limitlesstoolwithnbt1 = new ItemStack(itemIn);
+		limitlesstoolwithnbt.addEnchantment(Enchantment.getEnchantmentByID(21), 10);
+    	limitlesstoolwithnbt.addEnchantment(Enchantment.getEnchantmentByID(35), 10);
+    	limitlesstoolwithnbt1.addEnchantment(Enchantment.getEnchantmentByID(21), 10);
+    	limitlesstoolwithnbt1.addEnchantment(Enchantment.getEnchantmentByID(33), 1);
+    	subItems.add(limitlesstoolwithnbt);
+    	subItems.add(limitlesstoolwithnbt1);
+	}
 }

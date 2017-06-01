@@ -2,6 +2,7 @@ package com.bxzmod.someusefulthings.recipes;
 
 import com.bxzmod.someusefulthings.blocks.BlockLoader;
 import com.bxzmod.someusefulthings.config.ConfigLoader;
+import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 import com.bxzmod.someusefulthings.items.ItemLoader;
 
 import net.minecraft.enchantment.Enchantment;

@@ -3,6 +3,7 @@ package com.bxzmod.someusefulthings.items;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -18,7 +20,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class InvincibleRing extends Item implements IBauble 
 {
@@ -111,6 +116,13 @@ public class InvincibleRing extends Item implements IBauble
 		player.removePotionEffect(MobEffects.NIGHT_VISION);
 		player.removePotionEffect(MobEffects.SATURATION);
 		
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) 
+	{
+		tooltip.add(I18n.format("tooltip.invincibleRing", TextFormatting.RED));
 	}
 
 }

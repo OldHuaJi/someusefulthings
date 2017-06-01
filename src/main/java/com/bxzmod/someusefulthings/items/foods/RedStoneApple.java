@@ -1,13 +1,19 @@
 package com.bxzmod.someusefulthings.items.foods;
 
+import java.util.List;
+
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class RedStoneApple extends ItemFood 
 {
@@ -43,5 +49,14 @@ public class RedStoneApple extends ItemFood
         this.potionEffectProbability = Probability;
         return this;
     }
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) 
+	{
+		tooltip.add(I18n.format("tooltip.redStoneApple", TextFormatting.BLUE));
+		tooltip.add(I18n.format("tooltip.redStoneApple_1", TextFormatting.BLUE));
+		tooltip.add(I18n.format("tooltip.redStoneApple_2", TextFormatting.RED));
+	}
 
 }
