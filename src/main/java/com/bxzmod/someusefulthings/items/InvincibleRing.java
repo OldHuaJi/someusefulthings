@@ -11,7 +11,9 @@ import org.apache.logging.log4j.Logger;
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 
 import baubles.api.BaubleType;
+import baubles.api.BaublesApi;
 import baubles.api.IBauble;
+import baubles.api.cap.IBaublesItemHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +22,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -116,6 +122,27 @@ public class InvincibleRing extends Item implements IBauble
 		player.removePotionEffect(MobEffects.NIGHT_VISION);
 		player.removePotionEffect(MobEffects.SATURATION);
 		
+	}
+	
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) 
+	{
+		if(!world.isRemote) 
+		{ 
+			IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
+			for(int i = 0; i < baubles.getSlots(); i++) 
+				if(baubles.getStackInSlot(i) == null && baubles.isItemValidForSlot(i, stack, player)) 
+				{
+					baubles.setStackInSlot(i, stack.copy());
+					if(!player.capabilities.isCreativeMode)
+					{
+						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+					}
+					onEquipped(stack, player);
+					break;
+				}
+		}
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);	
 	}
 	
 	@SideOnly(Side.CLIENT)

@@ -7,6 +7,7 @@ import com.bxzmod.someusefulthings.config.ConfigLoader;
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 import com.bxzmod.someusefulthings.entity.EntityLoader;
 import com.bxzmod.someusefulthings.events.EventLoader;
+import com.bxzmod.someusefulthings.fluid.FluidLoader;
 import com.bxzmod.someusefulthings.gui.GuiLoader;
 import com.bxzmod.someusefulthings.items.ItemLoader;
 import com.bxzmod.someusefulthings.network.NetworkLoader;
@@ -26,6 +27,7 @@ public class Common
 		new ConfigLoader(event);
 		new CapabilityLoader(event);
 		new CreativeTabsLoader(event);
+		new FluidLoader(event);
 		new ItemLoader(event);
 		new BlockLoader(event);
 		new OreDictionaryLoader(event);

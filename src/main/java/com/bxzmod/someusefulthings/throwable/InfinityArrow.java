@@ -52,7 +52,7 @@ public class InfinityArrow extends EntitySnowball
 	{
 		if (!this.worldObj.isRemote)
 		{
-			if (raytraceResultIn.entityHit != null && raytraceResultIn.entityHit instanceof EntityLivingBase) 
+			if (raytraceResultIn.entityHit != null && raytraceResultIn.entityHit instanceof EntityLivingBase && !(raytraceResultIn.entityHit instanceof EntityPlayer)) 
 			{
 				EntityLivingBase e = (EntityLivingBase) raytraceResultIn.entityHit;
 				if (this.shootingEntity != null && this.shootingEntity instanceof EntityPlayer) 

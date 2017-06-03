@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DataInteraction implements IMessage 
 {
@@ -47,7 +48,7 @@ public class DataInteraction implements IMessage
 		{
 			if (ctx.side == Side.CLIENT)
 			{
-				final NBTTagCompound nbt = (NBTTagCompound) message.nbt.getTag("Items");
+				final NBTTagCompound nbt = (NBTTagCompound) message.nbt;
                 Minecraft.getMinecraft().addScheduledTask(new Runnable()
                 {
                 	@Override
@@ -78,9 +79,11 @@ public class DataInteraction implements IMessage
 			
 			if (ctx.side == Side.SERVER)
 			{
-				final NBTTagCompound nbt = (NBTTagCompound) message.nbt.getTag("Items");
+				NBTTagCompound nbt_temp = (NBTTagCompound) message.nbt.copy();
 				final String name = message.nbt.getString("name");
-				LOG.info(nbt.toString());
+				nbt_temp.removeTag("name");
+				final NBTTagCompound nbt = nbt_temp;
+				//LOG.info(nbt.toString());
 				Server.addScheduledTask(new Runnable()
                 {
                 	@Override

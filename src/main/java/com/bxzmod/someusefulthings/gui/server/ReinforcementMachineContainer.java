@@ -38,7 +38,7 @@ private IItemHandler items;
 		this.te = (ReinforcementMachineTileEntity) tileEntity;
 		this.items = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
 		
-		this.addSlotToContainer(this.hasDamgae = new SlotItemHandler(items, 0, 17, 20)
+		this.addSlotToContainer(this.hasDamgae = new SlotItemHandler(items, 0, 26, 20)
         {
 			@Override
             public boolean isItemValid(ItemStack stack)
@@ -53,7 +53,7 @@ private IItemHandler items;
             }
         });
 
-        this.addSlotToContainer(this.nether_start = new SlotItemHandler(items, 1, 53, 20)
+        this.addSlotToContainer(this.nether_start = new SlotItemHandler(items, 1, 62, 20)
         {
         	 @Override
              public boolean isItemValid(ItemStack stack)
@@ -68,7 +68,7 @@ private IItemHandler items;
             }
         });
 
-        this.addSlotToContainer(this.unbreakable = new SlotItemHandler(items, 2, 107, 20)
+        this.addSlotToContainer(this.unbreakable = new SlotItemHandler(items, 2, 134, 20)
         {
         	@Override
             public boolean isItemValid(ItemStack stack)

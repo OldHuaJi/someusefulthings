@@ -13,6 +13,7 @@ import baubles.api.BaublesApi;
 import baubles.api.BaublesApi;
 import baubles.api.IBauble;
 import baubles.api.cap.IBaublesItemHandler;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -22,6 +23,7 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.capabilities.Capability;
@@ -31,8 +33,15 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.fluids.BlockFluidBase;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EventLoader 
@@ -108,12 +117,9 @@ public class EventLoader
     {
     	Capability<IPortableInventory> capability = CapabilityLoader.PORTABLE_INVENTORY;
         IStorage<IPortableInventory> storage = CapabilityLoader.PORTABLE_INVENTORY.getStorage();
-        
-        if (event.getOriginal().hasCapability(capability, null) && event.getEntityPlayer().hasCapability(capability, null))
-        {
-        	NBTBase nbt = storage.writeNBT(capability, event.getOriginal().getCapability(capability, null), null);
-            storage.readNBT(capability, event.getEntityPlayer().getCapability(capability, null), null, nbt);
-        }
+       
+        NBTTagCompound bags = event.getOriginal().getCapability(capability, null).serializeNBT();
+        event.getEntityPlayer().getCapability(capability, null).deserializeNBT(bags);
     }
     
     @SubscribeEvent
@@ -130,11 +136,25 @@ public class EventLoader
     			IStorage<IPortableInventory> storage = CapabilityLoader.PORTABLE_INVENTORY.getStorage();
     			
     			message.nbt = new NBTTagCompound();
-    			message.nbt.setTag("Items", storage.writeNBT(CapabilityLoader.PORTABLE_INVENTORY, cp, null));
+    			message.nbt = (NBTTagCompound) storage.writeNBT(CapabilityLoader.PORTABLE_INVENTORY, cp, null);
     			
     			NetworkLoader.instance.sendTo(message, player);
             }
     	}
     }
 
+    @SubscribeEvent
+    public void onFillBucket(FillBucketEvent event)
+    {
+        BlockPos blockpos = event.getTarget().getBlockPos();
+        IBlockState blockState = event.getWorld().getBlockState(blockpos);
+        Fluid fluid = FluidRegistry.lookupFluidForBlock(blockState.getBlock());
+        if (fluid != null && new Integer(0).equals(blockState.getValue(BlockFluidBase.LEVEL)))
+        {
+            FluidStack fluidStack = new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME);
+            event.getWorld().setBlockToAir(blockpos);
+            event.setFilledBucket(FluidContainerRegistry.fillFluidContainer(fluidStack, event.getEmptyBucket()));
+            event.setResult(Result.ALLOW);
+        }
+    }
 }

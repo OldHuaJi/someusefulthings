@@ -6,11 +6,32 @@ item.limitlessTool.name=多功能工具
 item.redStoneApple.name=红石苹果
 item.artifactsword.name=一击必杀
 item.compressedDiamondSword.name=压缩钻石剑(仅用于合成)
+item.portableInventoryItem.white.name=背包(白色)
+item.portableInventoryItem.orange.name=背包(橙色)
+item.portableInventoryItem.magenta.name=背包(品红色)
+item.portableInventoryItem.lightBlue.name=背包(淡蓝色)
+item.portableInventoryItem.yellow.name=背包(黄色)
+item.portableInventoryItem.lime.name=背包(黄绿色)
+item.portableInventoryItem.pink.name=背包(粉色)
+item.portableInventoryItem.gray.name=背包(灰色)
+item.portableInventoryItem.silver.name=背包(淡灰色)
+item.portableInventoryItem.cyan.name=背包(青色)
+item.portableInventoryItem.purple.name=背包(紫色)
+item.portableInventoryItem.blue.name=背包(蓝色)
+item.portableInventoryItem.brown.name=背包(棕色)
+item.portableInventoryItem.green.name=背包(绿色)
+item.portableInventoryItem.red.name=背包(红色)
+item.portableInventoryItem.black.name=背包(黑色)
+item.bucketWwwwater.name=水水水水桶
 
 //block
 tile.removeEnchantment.name=祛魔器
 tile.reinforcementMachine.name=加固器
 tile.copyEnchantment.name=复魔器
+tile.fluidWwwwwater.name=水水水水
+
+//fluid
+fluid.fluidWwwwwater=水水水水
 
 //achievement
 achievement.someusefulthings.infinity=杀死创造
@@ -18,9 +39,6 @@ achievement.someusefulthings.infinity.desc=杀死一个处于创造模式的玩�
 
 //damagesource
 death.attack.infinity=%s 被一击必杀了！
-
-//gui
-gui.PortableInventory=背包
 
 //tooltip
 tooltip.redStoneApple=%s生命恢复 V (5:00)
@@ -32,3 +50,4 @@ tooltip.invincibleRing=%s准备开始第二轮了么，混沌守卫？
 tooltip.removeEnchantment=%s洗去那些铭文!
 tooltip.reinforcementMachine=%s不会损坏，只是这代价?
 tooltip.copyEnchantment=%s不，你这是在盗版!
+tooltip.portableInventoryItem=%s不会丢哦!

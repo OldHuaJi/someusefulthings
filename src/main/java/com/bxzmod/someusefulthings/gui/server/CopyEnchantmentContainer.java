@@ -71,7 +71,7 @@ public class CopyEnchantmentContainer extends Container
             }
         });
 
-        this.addSlotToContainer(this.book = new SlotItemHandler(items, 2, 107, 20)
+        this.addSlotToContainer(this.book = new SlotItemHandler(items, 2, 89, 20)
         {
         	@Override
             public boolean isItemValid(ItemStack stack)

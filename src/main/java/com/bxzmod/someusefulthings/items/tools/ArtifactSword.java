@@ -99,6 +99,7 @@ public class ArtifactSword extends ItemSword
 		tooltip.add(I18n.format("tooltip.artifactSword", TextFormatting.GOLD));
 	}
     
+    @SuppressWarnings("unchecked")
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
     {

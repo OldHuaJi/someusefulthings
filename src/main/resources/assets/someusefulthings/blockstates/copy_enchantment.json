@@ -9,11 +9,11 @@
     },
     "variants": {
         "inventory": [{
-             "textures": { "front": "someusefulthings:blocks/remove_enchantment_off" }
+             "textures": { "front": "someusefulthings:blocks/copy_enchantment_off" }
         }],
         "work": {
-            "true": { "textures": { "front": "someusefulthings:blocks/remove_enchantment_on" } },
-            "false": { "textures": { "front": "someusefulthings:blocks/remove_enchantment_off" } }
+            "true": { "textures": { "front": "someusefulthings:blocks/copy_enchantment_on" } },
+            "false": { "textures": { "front": "someusefulthings:blocks/copy_enchantment_off" } }
         },
         "facing": {
             "east": { "y": 90, "uvlock": true },

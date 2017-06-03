@@ -20,6 +20,8 @@ public class PortableInventoryContainer extends Container
 {
 	private StackHelper items = new StackHelper(54);
 	
+	private EntityPlayer p;
+	
 	int meta = 0;
 	
 	Capability<IPortableInventory> capability = CapabilityLoader.PORTABLE_INVENTORY;
@@ -27,7 +29,7 @@ public class PortableInventoryContainer extends Container
 	public PortableInventoryContainer(EntityPlayer player) 
 	{
 		super();
-		
+		this.p = player;
 		this.meta = player.getHeldItemMainhand().getItemDamage();
 		if (meta < 16 && player.hasCapability(capability, null))
 			items.setStackArray(player.getCapability(capability, null).getStacArrayAtNum(meta));
@@ -64,7 +66,7 @@ public class PortableInventoryContainer extends Container
 		IStorage<IPortableInventory> storage = CapabilityLoader.PORTABLE_INVENTORY.getStorage();
 		cp.setStacArrayAtNum(meta, items.getStackArray());
 		message.nbt = new NBTTagCompound();
-		message.nbt.setTag("Items", storage.writeNBT(CapabilityLoader.PORTABLE_INVENTORY, cp, null));
+		message.nbt = (NBTTagCompound) storage.writeNBT(CapabilityLoader.PORTABLE_INVENTORY, cp, null);
 		message.nbt.setString("name", playerIn.getName());
 		NetworkLoader.instance.sendToServer(message);
 	}
@@ -79,7 +81,51 @@ public class PortableInventoryContainer extends Container
 	@Override
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
-        return null;
+		Slot slot = inventorySlots.get(index);
+
+        if (slot == null || !slot.getHasStack())
+        {
+            return null;
+        }
+        
+        ItemStack newStack = slot.getStack(), oldStack = newStack.copy();
+
+        boolean isMerged = false;
+
+        if (index >= 0 && index < 54)
+        {
+            isMerged = mergeItemStack(newStack, 54, 90, true);
+        }
+        else if (index >= 54 && index < 81)
+        {
+            isMerged =  mergeItemStack(newStack, 0, 54, false) || mergeItemStack(newStack, 81, 90, false);
+        }
+        else if (index >= 81 && index < 90)
+        {
+            isMerged = mergeItemStack(newStack, 0, 54, false) || mergeItemStack(newStack, 54, 81, false);
+        }
+
+        if (!isMerged)
+        {
+            return null;
+        }
+
+        if (newStack.stackSize == 0)
+        {
+            slot.putStack(null);
+        }
+        else
+        {
+            slot.onSlotChanged();
+        }
+
+        slot.onPickupFromSlot(playerIn, newStack);
+
+        return oldStack;
     }
 
+	public EntityPlayer getPlayer()
+	{
+		return this.p;
+	}
 }

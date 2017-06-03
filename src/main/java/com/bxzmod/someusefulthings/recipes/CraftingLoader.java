@@ -3,11 +3,13 @@ package com.bxzmod.someusefulthings.recipes;
 import com.bxzmod.someusefulthings.blocks.BlockLoader;
 import com.bxzmod.someusefulthings.config.ConfigLoader;
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
+import com.bxzmod.someusefulthings.fluid.FluidLoaderHelper;
 import com.bxzmod.someusefulthings.items.ItemLoader;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.IFuelHandler;
@@ -77,6 +79,17 @@ public class CraftingLoader
     	        {
     	                "###", "#*#", "###", '#', Items.ENCHANTED_BOOK, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE)
     	        });
+    	for(int i = 0 ; i < 16 ; i++)
+    	{
+    		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.portableInventoryItem, 1, i), new Object[]
+        	        {
+        	                "WDW", "LCL", "WDW", 'W', "wool", 
+        	                'D', "dye" + toUpperCaseFirstOne(EnumDyeColor.byMetadata(i).toString()),
+        	                'C', "chest", 'L', "leather"
+        	        }));
+    	}
+    	
+    	GameRegistry.addShapelessRecipe(new ItemStack(FluidLoaderHelper.bucketWwwwater), new ItemStack(Items.WATER_BUCKET), new ItemStack(Items.WATER_BUCKET), new ItemStack(Items.BUCKET));
 
     }
 
@@ -98,4 +111,12 @@ public class CraftingLoader
         });*/
 
     }
+    
+    public static String toUpperCaseFirstOne(String s)
+    {
+        if(Character.isUpperCase(s.charAt(0)))
+          return s;
+        else
+          return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
+      }
 }

@@ -26,85 +26,25 @@ public class PortableInventory
     
 	public static class Storage implements Capability.IStorage<IPortableInventory>
     {
+
 		@Override
-        public NBTBase writeNBT(Capability<IPortableInventory> capability, IPortableInventory instance, EnumFacing side)
-        {
-			NBTTagCompound nbtTagInv = new NBTTagCompound();
-			NBTTagCompound nbtTagNum = new NBTTagCompound();
-	        NBTTagList nbtTagList = new NBTTagList();
-	        NBTTagList nbtTagNull = new NBTTagList();
-	        NBTTagCompound temp = new NBTTagCompound();
-	        temp.setInteger("Slot", 0);
-	        nbtTagNull.appendTag(temp);
-	        int Invs = instance .getInvs();
-			for (int i = 0; i < Invs; i++) 
-			{
-				int size = instance.getSlotsAtNum(i);
-				for (int j = 0; j < size; j++) 
-				{
-					ItemStack stack = instance.getStackInSlotAtNum(i, j);
-					if (stack != null) 
-					{
-						NBTTagCompound itemTag = new NBTTagCompound();
-						NBTTagCompound itemTagTemp = new NBTTagCompound();
-						itemTag = itemTagTemp.copy();
-						itemTag.setInteger("Slot", j);
-						stack.writeToNBT(itemTag);
-						nbtTagList.appendTag(itemTag.copy());
-					}
-				}
-				if(!nbtTagList.hasNoTags())
-				{
-					nbtTagNum.setTag("INV", nbtTagList.copy());
-					nbtTagNum.setInteger("Size", nbtTagList.tagCount());
-					nbtTagList = nbtTagNull.copy();
-					nbtTagList.removeTag(0);
-				}
-				else
-				{
-					NBTTagList nbtTagTemp = nbtTagNull.copy();
-					nbtTagNum.setTag("INV", nbtTagTemp);
-					nbtTagNum.setInteger("Size", 0);
-					nbtTagTemp.removeTag(0);
-				}
-				nbtTagInv.setTag(EnumDyeColor.byMetadata(i).toString(), nbtTagNum.copy());
-				nbtTagNum.removeTag("INV");
-				nbtTagNum.removeTag("Size");
-			}
-			return nbtTagInv;
-        }
+		public NBTBase writeNBT(Capability<IPortableInventory> capability, IPortableInventory instance,
+				EnumFacing side) 
+		{
+			return instance.serializeNBT();
+		}
 
-        @Override
-        public void readNBT(Capability<IPortableInventory> capability, IPortableInventory instance, EnumFacing side, NBTBase base)
-        {
-        	NBTTagCompound invList = (NBTTagCompound) base;
-            
-            for (int i = 0; i < invList.getSize(); i++) 
-			{
-            	NBTTagCompound nbtTagNum = invList.getCompoundTag(EnumDyeColor.byMetadata(i).toString()).copy();
-            	NBTTagList tagList = nbtTagNum.getTagList("INV", Constants.NBT.TAG_COMPOUND).copy();
-				if(nbtTagNum.getInteger("Size") > 0)
-				{
-					for (int j = 0; j < tagList.tagCount(); j++) 
-					{
-						NBTTagCompound itemTags = new NBTTagCompound();
-						itemTags = tagList.getCompoundTagAt(i).copy();
-						int slot;
-						slot = itemTags.getInteger("Slot");
-
-						if (slot >= 0 && slot < instance.getSlotsAtNum(i)) 
-						{
-							instance.setStackInSlotAtNum(i, slot, ItemStack.loadItemStackFromNBT(itemTags));
-						}
-						//NBTTagCompound itemTemp = new NBTTagCompound();
-						
-					}
-				}
-			}
-        }
+		@Override
+		public void readNBT(Capability<IPortableInventory> capability, IPortableInventory instance, EnumFacing side,
+				NBTBase nbt) 
+		{
+			instance.deserializeNBT((NBTTagCompound) nbt);
+		}
+		
     }
 	
-	public static class Implementation implements IPortableInventory, INBTSerializable<NBTTagCompound>
+	
+	public static class Implementation implements IPortableInventory
 	{
 		protected ItemStack[][] stacks = new ItemStack[16][54];
 
@@ -280,7 +220,7 @@ public class PortableInventory
 						NBTTagCompound itemTag = new NBTTagCompound();
 						NBTTagCompound itemTagTemp = new NBTTagCompound();
 						itemTag = itemTagTemp.copy();
-						itemTag.setInteger("Slot", i);
+						itemTag.setInteger("Slot", j);
 						stacks[i][j].writeToNBT(itemTag);
 						nbtTagList.appendTag(itemTag);
 					}
@@ -322,7 +262,7 @@ public class PortableInventory
 				{
 					for (int j = 0; j < tagList.tagCount(); j++) 
 					{
-						NBTTagCompound itemTags = tagList.getCompoundTagAt(i);
+						NBTTagCompound itemTags = tagList.getCompoundTagAt(j);
 						int slot = itemTags.getInteger("Slot");
 
 						if (slot >= 0 && slot < stacks[i].length) 
@@ -381,19 +321,14 @@ public class PortableInventory
         @Override
         public NBTTagCompound serializeNBT()
         {
-            NBTTagCompound compound = new NBTTagCompound();
-            NBTTagCompound temp = (NBTTagCompound) storage.writeNBT(CapabilityLoader.PORTABLE_INVENTORY, portableInventory, null);
-            compound.setTag("Items", temp);
-            compound.setInteger("Size", temp.getSize());
+            NBTTagCompound compound = (NBTTagCompound) storage.writeNBT(CapabilityLoader.PORTABLE_INVENTORY, portableInventory, null);
             return compound;
         }
 
         @Override
         public void deserializeNBT(NBTTagCompound compound)
         {
-            //NBTTagList list = (NBTTagList) compound.getTag("histories");
-        	NBTTagCompound invList = (NBTTagCompound) compound.getTag("Items");
-            storage.readNBT(CapabilityLoader.PORTABLE_INVENTORY, portableInventory, null, invList);
+            storage.readNBT(CapabilityLoader.PORTABLE_INVENTORY, portableInventory, null, compound);
         }
     }
 

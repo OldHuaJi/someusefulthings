@@ -189,6 +189,8 @@ public class UniversalTool extends ItemTool
 	@Override
 	public float getStrVsBlock(ItemStack stack, IBlockState state)
     {
+		return 15.0F;
+		/*
         Block block = state.getBlock();
         if (block == Blocks.WEB || state.getMaterial() == Material.LEAVES )
         	return 15.0F;
@@ -199,6 +201,7 @@ public class UniversalTool extends ItemTool
                     return efficiencyOnProperMaterial;
             }
         return this.effectiveBlocks.contains(state.getBlock()) ? this.efficiencyOnProperMaterial : 10.0F;
+        */
     }
 	
 	@Override

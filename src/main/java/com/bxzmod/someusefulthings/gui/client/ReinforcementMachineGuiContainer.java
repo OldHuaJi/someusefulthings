@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 public class ReinforcementMachineGuiContainer extends GuiContainer 
 {
 
-	private static final String TEXTURE_PATH = Info.MODID + ":" + "textures/gui/container/RemoveEnchantment.png";
+	private static final String TEXTURE_PATH = Info.MODID + ":" + "textures/gui/container/ReinforcementMachine.png";
     private static final ResourceLocation TEXTURE = new ResourceLocation(TEXTURE_PATH);
     
     ReinforcementMachineContainer inventory;
@@ -42,7 +42,7 @@ public class ReinforcementMachineGuiContainer extends GuiContainer
         
         int workTime = this.inventory.getWorkTime();
 		int textureWidth = 1 + (int) Math.ceil(22.0 * workTime / this.totalWorkTime);
-		this.drawTexturedModalRect(offsetX + 76, offsetY + 20, 0, 133, textureWidth, 17);
+		this.drawTexturedModalRect(offsetX + 94, offsetY + 20, 0, 133, textureWidth, 17);
 
 	}
 	
