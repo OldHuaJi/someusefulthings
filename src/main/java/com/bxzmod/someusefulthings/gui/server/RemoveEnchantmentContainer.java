@@ -1,6 +1,7 @@
 package com.bxzmod.someusefulthings.gui.server;
 
 import com.bxzmod.someusefulthings.gui.GuiLoader;
+import com.bxzmod.someusefulthings.gui.SlotItemHandlerHelper;
 import com.bxzmod.someusefulthings.tileentity.RemoveEnchantmentTileEntity;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,13 +22,12 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class RemoveEnchantmentContainer extends Container 
 {
-	//private ItemStackHandler items = new ItemStackHandler(4);
-	private IItemHandler items;
+	private IItemHandler items ;
 	
-	protected Slot ench;
-    protected Slot book;
-    protected Slot enchbook;
-    protected Slot noench;
+	protected SlotItemHandlerHelper ench;
+    protected SlotItemHandlerHelper book;
+    protected SlotItemHandlerHelper enchbook;
+    protected SlotItemHandlerHelper noench;
     
     protected RemoveEnchantmentTileEntity te;
 
@@ -40,7 +40,7 @@ public class RemoveEnchantmentContainer extends Container
 		this.te = (RemoveEnchantmentTileEntity) tileEntity;
 		this.items = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
 		
-		this.addSlotToContainer(this.ench = new SlotItemHandler(items, 0, 17, 20)
+		this.addSlotToContainer(this.ench = new SlotItemHandlerHelper(items, 0, 17, 20)
         {
 			@Override
             public boolean isItemValid(ItemStack stack)
@@ -55,7 +55,7 @@ public class RemoveEnchantmentContainer extends Container
             }
         });
 
-        this.addSlotToContainer(this.book = new SlotItemHandler(items, 1, 53, 20)
+        this.addSlotToContainer(this.book = new SlotItemHandlerHelper(items, 1, 53, 20)
         {
         	 @Override
              public boolean isItemValid(ItemStack stack)
@@ -70,7 +70,7 @@ public class RemoveEnchantmentContainer extends Container
             }
         });
 
-        this.addSlotToContainer(this.enchbook = new SlotItemHandler(items, 2, 107, 20)
+        this.addSlotToContainer(this.enchbook = new SlotItemHandlerHelper(items, 2, 107, 20)
         {
         	@Override
             public boolean isItemValid(ItemStack stack)
@@ -79,7 +79,7 @@ public class RemoveEnchantmentContainer extends Container
             }
         });
 
-        this.addSlotToContainer(this.noench = new SlotItemHandler(items, 3, 143, 20)
+        this.addSlotToContainer(this.noench = new SlotItemHandlerHelper(items, 3, 143, 20)
         {
         	@Override
             public boolean isItemValid(ItemStack stack)

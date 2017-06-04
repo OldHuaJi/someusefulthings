@@ -32,7 +32,7 @@ public class ReinforcementMachineTileEntity extends TileEntity implements ITicka
 	
 	protected int workTime = 0;
 
-    protected ItemStackHandler iInventory = new ItemStackHandler(3);
+	protected ItemStackHandlerMe iInventory = new ItemStackHandlerMe(3);
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing)
@@ -50,7 +50,7 @@ public class ReinforcementMachineTileEntity extends TileEntity implements ITicka
         if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
         {
             @SuppressWarnings("unchecked")
-            T result = (T)iInventory;
+            T result = (T) iInventory;
             return result;
         }
         return super.getCapability(capability, facing);
@@ -78,21 +78,21 @@ public class ReinforcementMachineTileEntity extends TileEntity implements ITicka
     {
 		if (!this.worldObj.isRemote) 
 		{
-			ItemStack itemStack_0 = iInventory.extractItem(0, 1, true);
-			ItemStack itemStack_1 = iInventory.extractItem(1, 1, true);
+			ItemStack itemStack_0 = iInventory.extractItemMe(0, 1, true);
+			ItemStack itemStack_1 = iInventory.extractItemMe(1, 1, true);
 			ItemStack itemStack_2 = new ItemStack(Items.DIAMOND_BOOTS);
 			IBlockState state = this.worldObj.getBlockState(pos);
 
-			if (itemStack_0 != null && itemStack_1 != null && iInventory.insertItem(2, itemStack_2, true) == null) {
+			if (itemStack_0 != null && itemStack_1 != null && iInventory.insertItemMe(2, itemStack_2, true) == null) {
 				this.worldObj.setBlockState(pos, state.withProperty(ReinforcementMachine.WORK, Boolean.TRUE));
 				if (++this.workTime >= workTotalTime) {
 					this.workTime = 0;
 					if (itemStack_0.hasTagCompound()) {
 						if(itemStack_0.getTagCompound().getByte("Unbreakable") != (byte) 1){
 						itemStack_0.getTagCompound().setByte("Unbreakable", (byte) 1);
-						iInventory.extractItem(1, 1, false);
-						itemStack_2 = iInventory.extractItem(0, 1, false);
-						iInventory.insertItem(2, itemStack_2, false);
+						iInventory.extractItemMe(1, 1, false);
+						itemStack_2 = iInventory.extractItemMe(0, 1, false);
+						iInventory.insertItemMe(2, itemStack_2, false);
 						this.markDirty();
 						}
 
@@ -100,9 +100,9 @@ public class ReinforcementMachineTileEntity extends TileEntity implements ITicka
 						NBTTagCompound nbt = new NBTTagCompound();
 						nbt.setByte("Unbreakable", (byte) 1);
 						itemStack_0.setTagCompound(nbt);
-						iInventory.extractItem(1, 1, false);
-						itemStack_2 = iInventory.extractItem(0, 1, false);
-						iInventory.insertItem(2, itemStack_2, false);
+						iInventory.extractItemMe(1, 1, false);
+						itemStack_2 = iInventory.extractItemMe(0, 1, false);
+						iInventory.insertItemMe(2, itemStack_2, false);
 						this.markDirty();
 					}
 				}
@@ -127,6 +127,57 @@ public class ReinforcementMachineTileEntity extends TileEntity implements ITicka
     public int getTotalWorkTime()
     {
         return this.workTotalTime;
+    }
+    
+    public class ItemStackHandlerMe extends ItemStackHandler 
+    {
+    	
+    	
+    	public ItemStackHandlerMe() 
+    	{
+			super();
+		}
+
+		public ItemStackHandlerMe(int size) 
+		{
+			super(size);
+		}
+
+		public ItemStackHandlerMe(ItemStack[] stacks) 
+		{
+			super(stacks);
+			
+		}
+
+		@Override
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) 
+		{
+			if(slot == 0 && !(stack.getItem().isDamageable() && !(stack.hasTagCompound() && stack.getTagCompound().getByte("Unbreakable") == (byte) 1)))
+				return stack;
+			if(slot == 1 && stack.getItem() != Items.NETHER_STAR)
+				return stack;
+			if(slot == 2)
+				return stack;
+			return super.insertItem(slot, stack, simulate);
+		}
+
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) 
+		{
+			if(slot == 2)
+				return super.extractItem(slot, amount, simulate);
+			return null;
+		}
+		
+		public ItemStack insertItemMe(int slot, ItemStack stack, boolean simulate) 
+		{
+			return super.insertItem(slot, stack, simulate);
+		}
+		
+		public ItemStack extractItemMe(int slot, int amount, boolean simulate) 
+		{
+			return super.extractItem(slot, amount, simulate);
+		}
     }
 
 }

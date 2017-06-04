@@ -1,6 +1,7 @@
 package com.bxzmod.someusefulthings.gui.server;
 
 import com.bxzmod.someusefulthings.gui.GuiLoader;
+import com.bxzmod.someusefulthings.gui.SlotItemHandlerHelper;
 import com.bxzmod.someusefulthings.tileentity.ReinforcementMachineTileEntity;
 import com.bxzmod.someusefulthings.tileentity.RemoveEnchantmentTileEntity;
 
@@ -20,12 +21,11 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class ReinforcementMachineContainer extends Container 
 {
-
-private IItemHandler items;
+	private IItemHandler items ;
 	
-	protected Slot hasDamgae;
-    protected Slot nether_start;
-    protected Slot unbreakable;
+	protected SlotItemHandlerHelper hasDamgae;
+    protected SlotItemHandlerHelper nether_start;
+    protected SlotItemHandlerHelper unbreakable;
     
     protected ReinforcementMachineTileEntity te;
 
@@ -38,7 +38,7 @@ private IItemHandler items;
 		this.te = (ReinforcementMachineTileEntity) tileEntity;
 		this.items = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
 		
-		this.addSlotToContainer(this.hasDamgae = new SlotItemHandler(items, 0, 26, 20)
+		this.addSlotToContainer(this.hasDamgae = new SlotItemHandlerHelper(items, 0, 26, 20)
         {
 			@Override
             public boolean isItemValid(ItemStack stack)
@@ -53,7 +53,7 @@ private IItemHandler items;
             }
         });
 
-        this.addSlotToContainer(this.nether_start = new SlotItemHandler(items, 1, 62, 20)
+        this.addSlotToContainer(this.nether_start = new SlotItemHandlerHelper(items, 1, 62, 20)
         {
         	 @Override
              public boolean isItemValid(ItemStack stack)
@@ -68,7 +68,7 @@ private IItemHandler items;
             }
         });
 
-        this.addSlotToContainer(this.unbreakable = new SlotItemHandler(items, 2, 134, 20)
+        this.addSlotToContainer(this.unbreakable = new SlotItemHandlerHelper(items, 2, 134, 20)
         {
         	@Override
             public boolean isItemValid(ItemStack stack)

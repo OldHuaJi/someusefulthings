@@ -1,6 +1,7 @@
 package com.bxzmod.someusefulthings.gui.server;
 
 import com.bxzmod.someusefulthings.gui.GuiLoader;
+import com.bxzmod.someusefulthings.gui.SlotItemHandlerHelper;
 import com.bxzmod.someusefulthings.tileentity.CopyEnchantmentTileEntity;
 import com.bxzmod.someusefulthings.tileentity.RemoveEnchantmentTileEntity;
 
@@ -21,12 +22,12 @@ import net.minecraftforge.items.SlotItemHandler;
 public class CopyEnchantmentContainer extends Container 
 {
 
-	private IItemHandler items;
+	private IItemHandler items ;
 	
-	protected Slot enchbook;
-    protected Slot Lapis;
-    protected Slot book;
-    protected Slot copy;
+	protected SlotItemHandlerHelper enchbook;
+    protected SlotItemHandlerHelper Lapis;
+    protected SlotItemHandlerHelper book;
+    protected SlotItemHandlerHelper copy;
     
     protected CopyEnchantmentTileEntity te;
 
@@ -41,7 +42,7 @@ public class CopyEnchantmentContainer extends Container
 		this.te = (CopyEnchantmentTileEntity) tileEntity;
 		this.items = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
 		
-		this.addSlotToContainer(this.enchbook = new SlotItemHandler(items, 0, 17, 20)
+		this.addSlotToContainer(this.enchbook = new SlotItemHandlerHelper(items, 0, 17, 20)
         {
 			@Override
             public boolean isItemValid(ItemStack stack)
@@ -56,7 +57,7 @@ public class CopyEnchantmentContainer extends Container
             }
         });
 
-        this.addSlotToContainer(this.Lapis = new SlotItemHandler(items, 1, 53, 20)
+        this.addSlotToContainer(this.Lapis = new SlotItemHandlerHelper(items, 1, 53, 20)
         {
         	 @Override
              public boolean isItemValid(ItemStack stack)
@@ -71,7 +72,7 @@ public class CopyEnchantmentContainer extends Container
             }
         });
 
-        this.addSlotToContainer(this.book = new SlotItemHandler(items, 2, 89, 20)
+        this.addSlotToContainer(this.book = new SlotItemHandlerHelper(items, 2, 89, 20)
         {
         	@Override
             public boolean isItemValid(ItemStack stack)
@@ -86,7 +87,7 @@ public class CopyEnchantmentContainer extends Container
             }
         });
 
-        this.addSlotToContainer(this.copy = new SlotItemHandler(items, 3, 143, 20)
+        this.addSlotToContainer(this.copy = new SlotItemHandlerHelper(items, 3, 143, 20)
         {
         	@Override
             public boolean isItemValid(ItemStack stack)

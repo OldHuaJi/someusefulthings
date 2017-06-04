@@ -32,7 +32,7 @@ public class RemoveEnchantmentTileEntity extends TileEntity implements ITickable
 	
 	protected int workTime = 0;
 
-    protected ItemStackHandler iInventory = new ItemStackHandler(4);
+	protected ItemStackHandlerMe iInventory = new ItemStackHandlerMe(4);
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing)
@@ -50,7 +50,7 @@ public class RemoveEnchantmentTileEntity extends TileEntity implements ITickable
         if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
         {
             @SuppressWarnings("unchecked")
-            T result = (T)iInventory;
+            T result = (T) iInventory;
             return result;
         }
         return super.getCapability(capability, facing);
@@ -78,14 +78,14 @@ public class RemoveEnchantmentTileEntity extends TileEntity implements ITickable
     {
 		if (!this.worldObj.isRemote) 
 		{
-			ItemStack itemStack_0 = iInventory.extractItem(0, 1, true);
-			ItemStack itemStack_1 = iInventory.extractItem(1, 1, true);
+			ItemStack itemStack_0 = iInventory.extractItemMe(0, 1, true);
+			ItemStack itemStack_1 = iInventory.extractItemMe(1, 1, true);
 			ItemStack itemStack_2 = new ItemStack(Items.ENCHANTED_BOOK);
 			ItemStack itemStack_3 = new ItemStack(Items.DIAMOND_BOOTS);
 			IBlockState state = this.worldObj.getBlockState(pos);
 
-			if (itemStack_0 != null && itemStack_1 != null && iInventory.insertItem(2, itemStack_2, true) == null
-					&& iInventory.insertItem(3, itemStack_3, true) == null) {
+			if (itemStack_0 != null && itemStack_1 != null && iInventory.insertItemMe(2, itemStack_2, true) == null
+					&& iInventory.insertItemMe(3, itemStack_3, true) == null) {
 				if (itemStack_0.isItemEnchanted()) {
 					this.worldObj.setBlockState(pos, state.withProperty(RemoveEnchantment.WORK, Boolean.TRUE));
 					if (++this.workTime >= workTotalTime) {
@@ -99,11 +99,10 @@ public class RemoveEnchantmentTileEntity extends TileEntity implements ITickable
 							NBTTagCompound nbt = new NBTTagCompound();
 							nbt.setTag("StoredEnchantments", list1);
 							itemStack_2.setTagCompound(nbt);
-							// itemStack = iInventory.extractItem(0, 1, false);
 							int amount = itemStack_1.stackSize;
 							if (amount >= 1)
-								iInventory.extractItem(1, 1, false);
-							iInventory.insertItem(2, itemStack_2, false);
+								iInventory.extractItemMe(1, 1, false);
+							iInventory.insertItemMe(2, itemStack_2, false);
 							this.markDirty();
 						}
 						else {
@@ -117,16 +116,16 @@ public class RemoveEnchantmentTileEntity extends TileEntity implements ITickable
 								itemStack_2.setTagCompound(nbt);
 								int amount = itemStack_1.stackSize;
 								if (amount >= 1)
-									iInventory.extractItem(1, 1, false);
-								iInventory.insertItem(2, itemStack_2, false);
+									iInventory.extractItemMe(1, 1, false);
+								iInventory.insertItemMe(2, itemStack_2, false);
 							}
 							itemStack_0.getTagCompound().removeTag("ench");
 							if (itemStack_0.getTagCompound().hasNoTags())
 		                    {
 								itemStack_0.setTagCompound((NBTTagCompound)null);
 		                    }
-							itemStack_3 = iInventory.extractItem(0, 1, false);
-							iInventory.insertItem(3, itemStack_3, false);
+							itemStack_3 = iInventory.extractItemMe(0, 1, false);
+							iInventory.insertItemMe(3, itemStack_3, false);
 							this.markDirty();
 						}
 					}
@@ -154,6 +153,57 @@ public class RemoveEnchantmentTileEntity extends TileEntity implements ITickable
     public int getTotalWorkTime()
     {
         return this.workTotalTime;
+    }
+    
+    public class ItemStackHandlerMe extends ItemStackHandler 
+    {
+    	
+    	
+    	public ItemStackHandlerMe() 
+    	{
+			super();
+		}
+
+		public ItemStackHandlerMe(int size) 
+		{
+			super(size);
+		}
+
+		public ItemStackHandlerMe(ItemStack[] stacks) 
+		{
+			super(stacks);
+			
+		}
+
+		@Override
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) 
+		{
+			if(slot == 0 && !(stack.isItemEnchanted()))
+				return stack;
+			if(slot == 1 && stack.getItem() != Items.BOOK)
+				return stack;
+			if(slot == 2 || slot == 3)
+				return stack;
+			return super.insertItem(slot, stack, simulate);
+		}
+
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) 
+		{
+			if(slot == 2 || slot == 3)
+				return super.extractItem(slot, amount, simulate);
+			return null;
+		}
+		
+		public ItemStack insertItemMe(int slot, ItemStack stack, boolean simulate) 
+		{
+			return super.insertItem(slot, stack, simulate);
+		}
+		
+		public ItemStack extractItemMe(int slot, int amount, boolean simulate) 
+		{
+			return super.extractItem(slot, amount, simulate);
+		}
     }
 
 }
