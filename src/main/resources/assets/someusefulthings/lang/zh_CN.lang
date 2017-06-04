@@ -51,3 +51,15 @@ tooltip.removeEnchantment=%s洗去那些铭文!
 tooltip.reinforcementMachine=%s不会损坏，只是这代价?
 tooltip.copyEnchantment=%s不，你这是在盗版!
 tooltip.portableInventoryItem=%s不会丢哦!
+
+//command
+command.easyset.useage=%s第一参数settings、onlinemode、keepInventory、mobGriefing%s第二参数true、false
+command.easyset.wrong_1=%s参数太多！使用tab键补全命令，或使用/help easyset查看用法
+command.easyset.wrong_2=%s没有参数！使用tab键补全命令，或使用/help easyset查看用法
+command.easyset.wrong_3=%s错误参数！使用tab键补全命令，或使用/help easyset查看用法
+command.easyset.msg_0=正版验证开启
+command.easyset.msg_1=正版验证关闭
+command.easyset.msg_2=死亡保存背包
+command.easyset.msg_3=死亡全部掉落
+command.easyset.msg_4=生物允许破坏方块
+command.easyset.msg_5=生物禁止破坏方块

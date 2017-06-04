@@ -34,62 +34,51 @@ public class CraftingLoader
 
     private static void registerRecipe()
     {
-    	if(ConfigLoader.invincible_ring)
-    	GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.invinciblering), new Object[]
-    	        {
-    	                " # ", "#*#", " # ", '#', Items.NETHER_STAR, '*', Item.getItemFromBlock(Blocks.DRAGON_EGG)
-    	        });
-    	GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.redstoneapple), new Object[]
-    	        {
-    	                "###", "#*#", "###", '#', Items.REDSTONE, '*', Items.APPLE
-    	        });
-    	GameRegistry.addShapedRecipe(limitlesstoolwithnbt, new Object[]
-    	        {
-    	                "PAS", "WDH", " # ", 'P', Items.DIAMOND_PICKAXE, 'A', Items.DIAMOND_AXE, 'S', Items.DIAMOND_SHOVEL, 'W', Items.DIAMOND_SWORD, 'D', Item.getItemFromBlock(Blocks.DIAMOND_BLOCK), 'H', Items.DIAMOND_HOE, '#', Items.SHEARS
-    	        });
-    	GameRegistry.addShapedRecipe(limitlesstoolwithnbt1, new Object[]
-    	        {
-    	                "SAP", "WDH", " # ", 'P', Items.DIAMOND_PICKAXE, 'A', Items.DIAMOND_AXE, 'S', Items.DIAMOND_SHOVEL, 'W', Items.DIAMOND_SWORD, 'D', Item.getItemFromBlock(Blocks.DIAMOND_BLOCK), 'H', Items.DIAMOND_HOE, '#', Items.SHEARS
-    	        });
-    	GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.artifactsword), new Object[]
-    	        {
-    	                "###", "#*#", "###", '#', Items.NETHER_STAR, '*', ItemLoader.compressedDiamondSword
-    	        });
-    	GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.compressedDiamondSword), new Object[]
-    	        {
-    	                "###", "###", "###", '#', Items.DIAMOND_SWORD
-    	        });
-    	GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt, new Object[]
-    	        {
-    	                "#  ", "   ", "   ", '#', "limitlesstool"
-    	        }));
-    	GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt1, new Object[]
-    	        {
-    	                " # ", "   ", "   ", '#', "limitlesstool"
-    	        }));
-    	GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.removeEnchantmentBlock), new Object[]
-    	        {
-    	                " # ", "#*#", " # ", '#', Items.DIAMOND, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE)
-    	        });
-    	GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.reinforcementMachineBlock), new Object[]
-    	        {
-    	                " # ", "#*#", " # ", '#', Items.NETHER_STAR, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE)
-    	        });
-    	GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.copyEnchantmentBlock), new Object[]
-    	        {
-    	                "###", "#*#", "###", '#', Items.ENCHANTED_BOOK, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE)
-    	        });
-    	for(int i = 0 ; i < 16 ; i++)
-    	{
-    		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.portableInventoryItem, 1, i), new Object[]
-        	        {
-        	                "WDW", "LCL", "WDW", 'W', "wool", 
-        	                'D', "dye" + toUpperCaseFirstOne(EnumDyeColor.byMetadata(i).toString()),
-        	                'C', "chest", 'L', "leather"
-        	        }));
-    	}
-    	
-    	GameRegistry.addShapelessRecipe(new ItemStack(FluidLoaderHelper.bucketWwwwater), new ItemStack(Items.WATER_BUCKET), new ItemStack(Items.WATER_BUCKET), new ItemStack(Items.BUCKET));
+		if (ConfigLoader.invincible_ring)
+			GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.invinciblering), new Object[] { " # ", "#*#", " # ",
+					'#', Items.NETHER_STAR, '*', Item.getItemFromBlock(Blocks.DRAGON_EGG) });
+		if (ConfigLoader.redstone_apple)
+			GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.redstoneapple),
+					new Object[] { "###", "#*#", "###", '#', Items.REDSTONE, '*', Items.APPLE });
+		if (ConfigLoader.limitless_tool) {
+			GameRegistry.addShapedRecipe(limitlesstoolwithnbt,
+					new Object[] { "PAS", "WDH", " # ", 'P', Items.DIAMOND_PICKAXE, 'A', Items.DIAMOND_AXE, 'S',
+							Items.DIAMOND_SHOVEL, 'W', Items.DIAMOND_SWORD, 'D',
+							Item.getItemFromBlock(Blocks.DIAMOND_BLOCK), 'H', Items.DIAMOND_HOE, '#', Items.SHEARS });
+			GameRegistry.addShapedRecipe(limitlesstoolwithnbt1,
+					new Object[] { "SAP", "WDH", " # ", 'P', Items.DIAMOND_PICKAXE, 'A', Items.DIAMOND_AXE, 'S',
+							Items.DIAMOND_SHOVEL, 'W', Items.DIAMOND_SWORD, 'D',
+							Item.getItemFromBlock(Blocks.DIAMOND_BLOCK), 'H', Items.DIAMOND_HOE, '#', Items.SHEARS });
+			GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt,
+					new Object[] { "#  ", "   ", "   ", '#', "limitlesstool" }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt1,
+					new Object[] { " # ", "   ", "   ", '#', "limitlesstool" }));
+		}
+		if (ConfigLoader.artifact_sword) {
+			GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.artifactsword), new Object[] { "###", "#*#", "###",
+					'#', Items.NETHER_STAR, '*', ItemLoader.compressedDiamondSword });
+			GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.compressedDiamondSword),
+					new Object[] { "###", "###", "###", '#', Items.DIAMOND_SWORD });
+		}
+		if (ConfigLoader.remove_enchantment)
+			GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.removeEnchantmentBlock), new Object[] { " # ", "#*#",
+					" # ", '#', Items.DIAMOND, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE) });
+		if (ConfigLoader.reinforcement_machine)
+			GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.reinforcementMachineBlock), new Object[] { " # ",
+					"#*#", " # ", '#', Items.NETHER_STAR, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE) });
+		if (ConfigLoader.copy_enchantment)
+			GameRegistry.addShapedRecipe(new ItemStack(BlockLoader.copyEnchantmentBlock), new Object[] { "###", "#*#",
+					"###", '#', Items.ENCHANTED_BOOK, '*', Item.getItemFromBlock(Blocks.ENCHANTING_TABLE) });
+		if (ConfigLoader.portable_inventory_item)
+			for (int i = 0; i < 16; i++) {
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.portableInventoryItem, 1, i),
+						new Object[] { "WDW", "LCL", "WDW", 'W', "wool", 'D',
+								"dye" + toUpperCaseFirstOne(EnumDyeColor.byMetadata(i).toString()), 'C', "chest", 'L',
+								"leather" }));
+			}
+		if (ConfigLoader.bucket_wwwwater)
+			GameRegistry.addShapelessRecipe(new ItemStack(FluidLoaderHelper.bucketWwwwater),
+					new ItemStack(Items.WATER_BUCKET), new ItemStack(Items.WATER_BUCKET), new ItemStack(Items.BUCKET));
 
     }
 
