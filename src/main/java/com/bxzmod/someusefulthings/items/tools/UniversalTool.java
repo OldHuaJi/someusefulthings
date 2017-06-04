@@ -189,6 +189,9 @@ public class UniversalTool extends ItemTool
 	@Override
 	public float getStrVsBlock(ItemStack stack, IBlockState state)
     {
+		Block block = state.getBlock();
+        if (block == Blocks.OBSIDIAN )
+        	return 150.0F;
 		return 15.0F;
 		/*
         Block block = state.getBlock();
