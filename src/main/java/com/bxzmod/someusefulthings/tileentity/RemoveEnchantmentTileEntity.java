@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import com.bxzmod.someusefulthings.blocks.RemoveEnchantment;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

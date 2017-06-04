@@ -3,7 +3,6 @@ package com.bxzmod.someusefulthings.capability;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.items.IItemHandler;
 
 public interface IPortableInventory extends INBTSerializable<NBTTagCompound>
 {

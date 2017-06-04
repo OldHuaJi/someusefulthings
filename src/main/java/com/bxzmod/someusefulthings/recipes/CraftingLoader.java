@@ -2,7 +2,6 @@ package com.bxzmod.someusefulthings.recipes;
 
 import com.bxzmod.someusefulthings.blocks.BlockLoader;
 import com.bxzmod.someusefulthings.config.ConfigLoader;
-import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 import com.bxzmod.someusefulthings.fluid.FluidLoaderHelper;
 import com.bxzmod.someusefulthings.items.ItemLoader;
 
@@ -12,7 +11,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;

@@ -3,8 +3,6 @@ package com.bxzmod.someusefulthings.gui.server;
 import com.bxzmod.someusefulthings.gui.GuiLoader;
 import com.bxzmod.someusefulthings.gui.SlotItemHandlerHelper;
 import com.bxzmod.someusefulthings.tileentity.CopyEnchantmentTileEntity;
-import com.bxzmod.someusefulthings.tileentity.RemoveEnchantmentTileEntity;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
@@ -17,7 +15,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
 
 public class CopyEnchantmentContainer extends Container 
 {

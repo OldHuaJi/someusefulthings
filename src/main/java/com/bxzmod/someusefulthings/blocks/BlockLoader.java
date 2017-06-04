@@ -3,9 +3,6 @@ package com.bxzmod.someusefulthings.blocks;
 import com.bxzmod.someusefulthings.blocks.itemblock.CopyEnchantmentItemBlock;
 import com.bxzmod.someusefulthings.blocks.itemblock.ReinforcementMachineItemBlock;
 import com.bxzmod.someusefulthings.blocks.itemblock.RemoveEnchantmentItemBlock;
-import com.bxzmod.someusefulthings.fluid.BlockFluidWwwwater;
-import com.bxzmod.someusefulthings.fluid.FluidLoader;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;

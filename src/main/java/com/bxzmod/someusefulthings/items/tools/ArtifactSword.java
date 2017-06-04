@@ -1,15 +1,12 @@
 package com.bxzmod.someusefulthings.items.tools;
 
 import java.util.List;
-import java.util.Set;
-
 import com.bxzmod.someusefulthings.achievement.AchievementLoader;
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 import com.bxzmod.someusefulthings.damagesource.Infinity;
 import com.bxzmod.someusefulthings.items.ItemLoader;
 import com.bxzmod.someusefulthings.throwable.InfinityArrow;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -17,9 +14,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
 import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumActionResult;

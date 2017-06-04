@@ -4,7 +4,6 @@ import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fluids.BlockFluidClassic;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidWwwwater extends BlockFluidClassic 
 {

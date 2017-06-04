@@ -1,17 +1,10 @@
 package com.bxzmod.someusefulthings.tileentity;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.bxzmod.someusefulthings.blocks.CopyEnchantment;
-import com.bxzmod.someusefulthings.blocks.RemoveEnchantment;
-import com.bxzmod.someusefulthings.tileentity.RemoveEnchantmentTileEntity.ItemStackHandlerMe;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;

@@ -1,14 +1,11 @@
 package com.bxzmod.someusefulthings.fluid;
 
 import com.bxzmod.someusefulthings.Info;
-import com.bxzmod.someusefulthings.blocks.BlockLoader;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidBase;

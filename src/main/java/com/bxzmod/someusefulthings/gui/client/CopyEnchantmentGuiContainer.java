@@ -2,8 +2,6 @@ package com.bxzmod.someusefulthings.gui.client;
 
 import com.bxzmod.someusefulthings.Info;
 import com.bxzmod.someusefulthings.gui.server.CopyEnchantmentContainer;
-import com.bxzmod.someusefulthings.gui.server.RemoveEnchantmentContainer;
-
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
