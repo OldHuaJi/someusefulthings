@@ -1,25 +1,27 @@
 package com.bxzmod.someusefulthings.items.tools;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
-import com.bxzmod.someusefulthings.items.ItemLoader;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -27,9 +29,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.common.IShearable;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -60,22 +61,21 @@ public class UniversalTool extends ItemTool
 	}
 
 	@Override
-	public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, net.minecraft.entity.player.EntityPlayer player) 
+	public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, EntityPlayer player) 
 	{
 		if (player.worldObj.isRemote || player.capabilities.isCreativeMode) 
 		{
 			return false;
 		}
 		Block block = player.worldObj.getBlockState(pos).getBlock();
-		if (block instanceof net.minecraftforge.common.IShearable) 
+		if (block instanceof IShearable) 
 		{
-			net.minecraftforge.common.IShearable target = (net.minecraftforge.common.IShearable) block;
+			IShearable target = (IShearable) block;
 			if (target.isShearable(itemstack, player.worldObj, pos)) 
 			{
-				java.util.List<ItemStack> drops = target.onSheared(itemstack, player.worldObj, pos,
-						net.minecraft.enchantment.EnchantmentHelper
-								.getEnchantmentLevel(net.minecraft.init.Enchantments.FORTUNE, itemstack));
-				java.util.Random rand = new java.util.Random();
+				List<ItemStack> drops = target.onSheared(itemstack, player.worldObj, pos,
+				EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, itemstack));
+				Random rand = new Random();
 
 				for (ItemStack stack : drops) 
 				{
@@ -83,16 +83,14 @@ public class UniversalTool extends ItemTool
 					double d = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
 					double d1 = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
 					double d2 = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-					net.minecraft.entity.item.EntityItem entityitem = new net.minecraft.entity.item.EntityItem(
-							player.worldObj, (double) pos.getX() + d, (double) pos.getY() + d1,
-							(double) pos.getZ() + d2, stack);
+					EntityItem entityitem = new EntityItem(player.worldObj, (double) pos.getX() + d, (double) pos.getY() + d1, (double) pos.getZ() + d2, stack);
 					entityitem.setDefaultPickupDelay();
 					player.worldObj.spawnEntityInWorld(entityitem);
 				}
 
 				//itemstack.damageItem(1, player);
 				this.setDamage(itemstack, 0);
-				player.addStat(net.minecraft.stats.StatList.getBlockStats(block));
+				player.addStat(StatList.getBlockStats(block));
 			}
 		}
 		return false;
@@ -107,7 +105,7 @@ public class UniversalTool extends ItemTool
 		} 
 		else 
 		{
-			int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(stack, playerIn, worldIn, pos);
+			int hook = ForgeEventFactory.onHoeUse(stack, playerIn, worldIn, pos);
 			if (hook != 0)
 				return hook > 0 ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
 
@@ -154,26 +152,25 @@ public class UniversalTool extends ItemTool
 	}
 
 	@Override
-	public boolean itemInteractionForEntity(ItemStack itemstack, net.minecraft.entity.player.EntityPlayer player, EntityLivingBase entity, net.minecraft.util.EnumHand hand) 
+	public boolean itemInteractionForEntity(ItemStack itemstack, EntityPlayer player, EntityLivingBase entity, EnumHand hand) 
 	{
 		if (entity.worldObj.isRemote) 
 		{
 			return false;
 		}
-		if (entity instanceof net.minecraftforge.common.IShearable) 
+		if (entity instanceof IShearable) 
 		{
-			net.minecraftforge.common.IShearable target = (net.minecraftforge.common.IShearable) entity;
+			IShearable target = (IShearable) entity;
 			BlockPos pos = new BlockPos(entity.posX, entity.posY, entity.posZ);
 			if (target.isShearable(itemstack, entity.worldObj, pos)) 
 			{
 				java.util.List<ItemStack> drops = target.onSheared(itemstack, entity.worldObj, pos,
-						net.minecraft.enchantment.EnchantmentHelper
-								.getEnchantmentLevel(net.minecraft.init.Enchantments.FORTUNE, itemstack));
+				EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, itemstack));
 
-				java.util.Random rand = new java.util.Random();
+				Random rand = new Random();
 				for (ItemStack stack : drops) 
 				{
-					net.minecraft.entity.item.EntityItem ent = entity.entityDropItem(stack, 1.0F);
+					EntityItem ent = entity.entityDropItem(stack, 1.0F);
 					ent.motionY += rand.nextFloat() * 0.05F;
 					ent.motionX += (rand.nextFloat() - rand.nextFloat()) * 0.1F;
 					ent.motionZ += (rand.nextFloat() - rand.nextFloat()) * 0.1F;
@@ -252,4 +249,6 @@ public class UniversalTool extends ItemTool
     	subItems.add(limitlesstoolwithnbt);
     	subItems.add(limitlesstoolwithnbt1);
 	}
+	
+	
 }
