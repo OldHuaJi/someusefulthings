@@ -63,3 +63,15 @@ command.easyset.msg_2=死亡保存背包
 command.easyset.msg_3=死亡全部掉落
 command.easyset.msg_4=生物允许破坏方块
 command.easyset.msg_5=生物禁止破坏方块
+
+//msg
+limitlessTool.toolmsg_0=§e单方块模式
+limitlessTool.toolmsg_1=§e范围挖掘
+
+//gui
+gui.toolsetting=多功能工具设置
+gui.toolsetting.range=挖掘范围
+gui.toolsetting.depth=挖掘深度
+gui.toolsetting.ench=当前附魔
+gui.toolsetting.fortune=时运
+gui.toolsetting.silktouch=精准采集

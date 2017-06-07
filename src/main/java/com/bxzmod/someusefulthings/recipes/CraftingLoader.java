@@ -5,12 +5,16 @@ import com.bxzmod.someusefulthings.config.ConfigLoader;
 import com.bxzmod.someusefulthings.fluid.FluidLoaderHelper;
 import com.bxzmod.someusefulthings.items.ItemLoader;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -21,10 +25,22 @@ public class CraftingLoader
 	public final static ItemStack limitlesstoolwithnbt1 = new ItemStack(ItemLoader.limitlesstool);
     public CraftingLoader(FMLInitializationEvent event)
     {
+    	NBTTagCompound dig = new NBTTagCompound();
+    	NBTTagCompound tag = new NBTTagCompound();
+		NBTTagList nbttaglist = new NBTTagList();
+		NBTTagString lore = new NBTTagString(I18n.format("limitlessTool.toolmsg_0"));
+		nbttaglist.appendTag(lore);
+		tag.setTag("Lore", nbttaglist);
+		dig.setInteger("dig_range", 1);
+		dig.setInteger("dig_depth", 1);
     	limitlesstoolwithnbt.addEnchantment(Enchantment.getEnchantmentByID(21), 10);
     	limitlesstoolwithnbt.addEnchantment(Enchantment.getEnchantmentByID(35), 10);
     	limitlesstoolwithnbt1.addEnchantment(Enchantment.getEnchantmentByID(21), 10);
     	limitlesstoolwithnbt1.addEnchantment(Enchantment.getEnchantmentByID(33), 1);
+    	limitlesstoolwithnbt.getTagCompound().setTag("display", tag);
+    	limitlesstoolwithnbt1.getTagCompound().setTag("dig_parameter", dig);
+    	limitlesstoolwithnbt.getTagCompound().setInteger("dig_range", 1);
+    	limitlesstoolwithnbt1.getTagCompound().setTag("dig_parameter", dig);
         registerRecipe();
         registerSmelting();
         registerFuel();
@@ -47,10 +63,6 @@ public class CraftingLoader
 					new Object[] { "SAP", "WDH", " # ", 'P', Items.DIAMOND_PICKAXE, 'A', Items.DIAMOND_AXE, 'S',
 							Items.DIAMOND_SHOVEL, 'W', Items.DIAMOND_SWORD, 'D',
 							Item.getItemFromBlock(Blocks.DIAMOND_BLOCK), 'H', Items.DIAMOND_HOE, '#', Items.SHEARS });
-			GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt,
-					new Object[] { "#  ", "   ", "   ", '#', "limitlesstool" }));
-			GameRegistry.addRecipe(new ShapedOreRecipe(limitlesstoolwithnbt1,
-					new Object[] { " # ", "   ", "   ", '#', "limitlesstool" }));
 		}
 		if (ConfigLoader.artifact_sword) {
 			GameRegistry.addShapedRecipe(new ItemStack(ItemLoader.artifactsword), new Object[] { "###", "#*#", "###",

@@ -4,6 +4,8 @@ import com.bxzmod.someusefulthings.Info;
 import com.bxzmod.someusefulthings.capability.CapabilityLoader;
 import com.bxzmod.someusefulthings.capability.IPortableInventory;
 import com.bxzmod.someusefulthings.capability.PortableInventory;
+import com.bxzmod.someusefulthings.gui.client.ToolSettingGuiContainer;
+import com.bxzmod.someusefulthings.hotkey.KeyLoader;
 import com.bxzmod.someusefulthings.items.ItemLoader;
 import com.bxzmod.someusefulthings.network.DataInteraction;
 import com.bxzmod.someusefulthings.network.NetworkLoader;
@@ -11,12 +13,16 @@ import com.bxzmod.someusefulthings.network.NetworkLoader;
 import baubles.api.BaublesApi;
 import baubles.api.cap.IBaublesItemHandler;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.capabilities.Capability;
@@ -32,9 +38,13 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EventLoader 
 {
@@ -149,4 +159,19 @@ public class EventLoader
             event.setResult(Result.ALLOW);
         }
     }
+    /*
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent
+    public void onKeyInput(GuiScreenEvent.KeyboardInputEvent event)
+    {
+        if (!(KeyLoader.digrange.isPressed()) && !(KeyLoader.digdepth.isPressed()))
+        	return;
+        if(!FMLClientHandler.instance().isGUIOpen(ToolSettingGuiContainer.class)) 
+    	{
+    		if(KeyLoader.digrange.isPressed()) 
+    		{
+    		}
+    	}
+    }
+    */
 }

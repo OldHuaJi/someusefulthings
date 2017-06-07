@@ -8,6 +8,7 @@ import com.bxzmod.someusefulthings.config.ConfigLoader;
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 import com.bxzmod.someusefulthings.entity.EntityLoader;
 import com.bxzmod.someusefulthings.events.EventLoader;
+import com.bxzmod.someusefulthings.fakeplayer.FakePlayerLoader;
 import com.bxzmod.someusefulthings.fluid.FluidLoader;
 import com.bxzmod.someusefulthings.gui.GuiLoader;
 import com.bxzmod.someusefulthings.items.ItemLoader;
@@ -46,6 +47,7 @@ public class Common
     	new AchievementLoader(event);
     	new EventLoader(event);
     	new GuiLoader(event);
+    	new FakePlayerLoader(event);
 
     }
 
