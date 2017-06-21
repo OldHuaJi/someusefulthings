@@ -3,6 +3,8 @@ package com.bxzmod.someusefulthings.gui.server;
 import java.util.Arrays;
 
 import com.bxzmod.someusefulthings.items.ItemLoader;
+import com.bxzmod.someusefulthings.network.NetworkLoader;
+import com.bxzmod.someusefulthings.network.ToolSettingSync;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,12 +16,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ToolSettingContainer extends Container 
 {
-	EntityPlayerMP p;
-	
-	MinecraftServer Server = FMLCommonHandler.instance().getMinecraftServerInstance();
+	EntityPlayer p;
 	
 	private static int a =1;
     private static int b =1;
@@ -28,7 +30,7 @@ public class ToolSettingContainer extends Container
 
 	public ToolSettingContainer(EntityPlayer player) 
 	{
-		this.p = Server.getPlayerList().getPlayerByUsername(player.getName());
+		this.p = player;
 		NBTTagCompound dig = new NBTTagCompound();
         dig.setInteger("dig_range", 1);
         dig.setInteger("dig_depth", 1);
@@ -105,6 +107,19 @@ public class ToolSettingContainer extends Container
 			playerIn.getHeldItemMainhand().getTagCompound().removeTag("display");
 		}
 		playerIn.getHeldItemMainhand().getTagCompound().setTag("display", tag);
+		/*
+		if(playerIn.getHeldItemMainhand().getTagCompound().hasKey("ench"))
+		{
+			playerIn.getHeldItemMainhand().getTagCompound().removeTag("ench");
+		}
+		playerIn.getHeldItemMainhand().getTagCompound().setTag("ench", this.ench);
+		/*
+		ToolSettingSync message = new ToolSettingSync();
+		message.nbt = new NBTTagCompound();
+		playerIn.getHeldItemMainhand().writeToNBT(message.nbt);
+		message.nbt.setString("name", playerIn.getName());
+		NetworkLoader.instance.sendToServer(message);
+		*/
 	}
 
 	public EntityPlayer getPlayer()

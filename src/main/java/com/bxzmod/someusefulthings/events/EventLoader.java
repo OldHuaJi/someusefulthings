@@ -4,6 +4,10 @@ import com.bxzmod.someusefulthings.Info;
 import com.bxzmod.someusefulthings.capability.CapabilityLoader;
 import com.bxzmod.someusefulthings.capability.IPortableInventory;
 import com.bxzmod.someusefulthings.capability.PortableInventory;
+import com.bxzmod.someusefulthings.fluid.BlockFluidWwwwater;
+import com.bxzmod.someusefulthings.fluid.FluidLoaderHelper;
+import com.bxzmod.someusefulthings.fluid.FluidWwwwater;
+import com.bxzmod.someusefulthings.fluid.ItemBucketWwwwater;
 import com.bxzmod.someusefulthings.gui.client.ToolSettingGuiContainer;
 import com.bxzmod.someusefulthings.hotkey.KeyLoader;
 import com.bxzmod.someusefulthings.items.ItemLoader;
@@ -21,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,6 +43,9 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.IFluidBlock;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
@@ -144,7 +152,30 @@ public class EventLoader
             }
     	}
     }
+    
+    @SubscribeEvent
+    public void onBucketFill(FillBucketEvent event)
+    {
+        RayTraceResult target = event.getTarget();
+        World worldIn = event.getWorld();
+        if (target != null)
+        {
+            IBlockState state = event.getWorld().getBlockState(target.getBlockPos());
+            if (state.getBlock() instanceof BlockFluidWwwwater)
+            {
+            	//Fluid fluid = ((BlockFluidBase) state.getBlock()).getFluid();
+                //FluidStack fs = new FluidStack(fluid, Fluid.BUCKET_VOLUME);
 
+                //ItemStack bucket = event.getEmptyBucket();
+                //IFluidHandler fluidHandler = FluidUtil.getFluidHandler(bucket);
+                ItemStack filledBucket = new ItemStack(FluidLoaderHelper.bucketWwwwater);
+                event.setFilledBucket(filledBucket);
+                worldIn.setBlockToAir(target.getBlockPos());
+                event.setResult(Result.ALLOW);
+            }
+        }
+    }
+/*
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event)
     {

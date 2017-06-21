@@ -19,6 +19,7 @@ public class NetworkLoader
 	{
 		registerMessage(DataInteraction.ToClientHandler.class, DataInteraction.class, Side.CLIENT);
 		registerMessage(DataInteraction.ToServerHandler.class, DataInteraction.class, Side.SERVER);
+		registerMessage(ToolSettingSync.ToServerSetting.class, ToolSettingSync.class, Side.SERVER);
 		
 	}
 

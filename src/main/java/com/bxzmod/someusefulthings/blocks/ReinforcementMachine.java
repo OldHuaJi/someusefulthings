@@ -8,6 +8,9 @@ import com.bxzmod.someusefulthings.Main;
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 import com.bxzmod.someusefulthings.gui.GuiLoader;
 import com.bxzmod.someusefulthings.tileentity.ReinforcementMachineTileEntity;
+import com.bxzmod.someusefulthings.tileentity.RemoveEnchantmentTileEntity;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -28,6 +31,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
 public class ReinforcementMachine extends BlockContainer 
 {
@@ -99,6 +105,25 @@ public class ReinforcementMachine extends BlockContainer
         return EnumBlockRenderType.MODEL;
     }
 
+	@Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+		ReinforcementMachineTileEntity te = (ReinforcementMachineTileEntity) worldIn.getTileEntity(pos);
+
+        IItemHandler i = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
+
+        for (int m = i.getSlots() - 1; m >= 0; --m)
+        {
+            if (i.getStackInSlot(m) != null)
+            {
+                Block.spawnAsEntity(worldIn, pos, i.getStackInSlot(m));
+                ((IItemHandlerModifiable) i).setStackInSlot(m, null);
+            }
+        }
+
+        super.breakBlock(worldIn, pos, state);
+    }
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) 

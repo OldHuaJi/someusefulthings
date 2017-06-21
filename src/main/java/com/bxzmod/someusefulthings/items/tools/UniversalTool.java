@@ -27,6 +27,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTBase;
@@ -91,6 +92,9 @@ public class UniversalTool extends ItemTool
 		//Get a Facing by it's index (0-5). The order is D-U-N-S-W-E.
 		//E=x+, U=y+, S=z+
 		if (player.worldObj.isRemote) {
+			return false;
+		}
+		if (player.getName().contains("[") || player.getName().contains("]")) {
 			return false;
 		}
 		if(raytraceFromEntity(player.worldObj, player, true, 10).sideHit == null)
@@ -228,7 +232,7 @@ public class UniversalTool extends ItemTool
 		Block block = state.getBlock();
         if (block == Blocks.OBSIDIAN )
         	return 150.0F;
-        if (block.getBlockHardness(state, null, null) >= 20.0F)
+        if (block.getRegistryName().toString().toLowerCase().matches("(.*)obsidian(.*)"))
         	return 150.0F;
 		return 15.0F;
 		/*
