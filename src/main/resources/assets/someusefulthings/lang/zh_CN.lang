@@ -67,6 +67,7 @@ command.easyset.msg_5=生物禁止破坏方块
 //msg
 limitlessTool.toolmsg_0=§e单方块模式
 limitlessTool.toolmsg_1=§e范围挖掘
+limitlessTool.safePrompt=§4骚侠，这一镐子下去，你要骂人的
 
 //gui
 gui.toolsetting=多功能工具设置

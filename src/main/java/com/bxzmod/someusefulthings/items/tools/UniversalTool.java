@@ -112,6 +112,11 @@ public class UniversalTool extends ItemTool
 				a = 1;
 				b = 1;
 			}
+			if ((a != 1 || b != 1) && this.isNotSafe(pos, player, a, b, side))
+			{
+				player.addChatMessage(new TextComponentString(I18n.format("limitlessTool.safePrompt")));
+				return false;
+			}
 			switch (a) 
 			{
 			case 2:
@@ -488,6 +493,89 @@ public class UniversalTool extends ItemTool
 			if(exp > 0)
 				blk.dropXpOnBlockBreak(world, pos, exp);
 		}
+	}
+	
+	public boolean isNotSafe(BlockPos pos, EntityPlayer player, int range, int depth, int side)
+	{
+		BlockPos nextpos = pos;
+		int y_range = range == 1? 1 : range * 2 - 2, digrange = depth;
+		switch(side)
+		{
+		case 0:
+			for(int x = -range + 1; x < range; x++)
+				for(int y = 0; y < digrange; y++)
+					for(int z = -range + 1; z < range; z++)
+					{
+						nextpos = pos.add(x, -y, z);
+						if(x == 0 && y == 0 && z==0)
+							continue;
+						if (!player.worldObj.isAirBlock(nextpos) && player.worldObj.getTileEntity(nextpos) != null)
+							return true;
+					}
+			break;
+		case 1:
+			for(int x = -range + 1; x < range; x++)
+				for(int y = 0; y < digrange; y++)
+					for(int z = -range + 1; z < range; z++)
+					{
+						nextpos = pos.add(x, y, z);
+						if(x == 0 && y == 0 && z==0)
+							continue;
+						if (!player.worldObj.isAirBlock(nextpos) && player.worldObj.getTileEntity(nextpos) != null)
+							return true;
+					}
+			break;
+		case 2:
+			for(int x = -range + 1; x < range; x++)
+				for(int y = range == 1? 0 : -1; y < y_range; y++)
+					for(int z = 0; z < digrange; z++)
+					{
+						nextpos = pos.add(x, y, -z);
+						if(x == 0 && y == 0 && z==0)
+							continue;
+						if (!player.worldObj.isAirBlock(nextpos) && player.worldObj.getTileEntity(nextpos) != null)
+							return true;
+					}
+			break;
+		case 3:
+			for(int x = -range + 1; x < range; x++)
+				for(int y = range == 1? 0 : -1; y < y_range; y++)
+					for(int z = 0; z < digrange; z++)
+					{
+						nextpos = pos.add(x, y, z);
+						if(x == 0 && y == 0 && z==0)
+							continue;
+						if (!player.worldObj.isAirBlock(nextpos) && player.worldObj.getTileEntity(nextpos) != null)
+							return true;
+					}
+			break;
+		case 4:
+			for(int x = 0; x < digrange; x++)
+				for(int y = range == 1? 0 : -1; y < y_range; y++)
+					for(int z = -range + 1; z < range; z++)
+					{
+						nextpos = pos.add(-x, y, z);
+						if(x == 0 && y == 0 && z==0)
+							continue;
+						if (!player.worldObj.isAirBlock(nextpos) && player.worldObj.getTileEntity(nextpos) != null)
+							return true;
+					}
+			break;
+		case 5:
+			for(int x = 0; x < digrange; x++)
+				for(int y = range == 1? 0 : -1; y < y_range; y++)
+					for(int z = -range + 1; z < range; z++)
+					{
+						nextpos = pos.add(x, y, z);
+						if(x == 0 && y == 0 && z==0)
+							continue;
+						if (!player.worldObj.isAirBlock(nextpos) && player.worldObj.getTileEntity(nextpos) != null)
+							return true;
+					}
+			break;
+		default:return false;
+		}
+		return false;
 	}
 	
 }
