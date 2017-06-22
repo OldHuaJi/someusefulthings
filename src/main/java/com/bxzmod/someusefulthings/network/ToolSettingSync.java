@@ -50,7 +50,7 @@ public class ToolSettingSync implements IMessage
 				NBTTagCompound nbt_temp = (NBTTagCompound) message.nbt.copy();
 				final String name = message.nbt.getString("name");
 				nbt_temp.removeTag("name");
-				final NBTTagCompound nbt = nbt_temp;
+				final ItemStack tool = ItemStack.loadItemStackFromNBT(nbt_temp);
 				Server.addScheduledTask(new Runnable()
                 {
                 	@Override
@@ -60,67 +60,12 @@ public class ToolSettingSync implements IMessage
                 		if (player != null)
                 		{
                 			if(player.getHeldItemMainhand().getItem() == ItemLoader.limitlesstool)
-                				this.setEnch(player);
+                				player.setHeldItem(EnumHand.MAIN_HAND, tool);
                 		}
                 	}
-                	
-                	public void setEnch(EntityPlayer player)
-            		{
-            			int flag_0 = -1, flag_1 = -1, flag_2 = -1;
-            	        boolean flag = false;
-            	        if(player.getHeldItemMainhand().getItem() == ItemLoader.limitlesstool)
-            	        {
-            	            NBTTagList ench = player.getHeldItemMainhand().getEnchantmentTagList();
-            	            if(player.getHeldItemMainhand().getTagCompound().hasKey("RepairCost"))
-            	                player.getHeldItemMainhand().getTagCompound().removeTag("RepairCost");
-            	            if(ench.hasNoTags())
-            	            {
-            	                player.getHeldItemMainhand().addEnchantment(Enchantments.LOOTING, 10);
-            	                player.getHeldItemMainhand().addEnchantment(Enchantments.FORTUNE, 10);
-            	            }
-            	            else
-            	            {
-            	                NBTTagList enchtemp = ench.copy();
-            	                for (int i = 0; i < enchtemp.tagCount(); i++) 
-            	                {
-            	                    int m = ((NBTTagCompound) ench.get(i)).getShort("id");
-            	                    int n = ((NBTTagCompound) ench.get(i)).getShort("lvl");
-            	                    if(m == 21)
-            	                        flag_0 = n < 10 ? i : -2;
-            	                    if(m == 35)
-            	                    {
-            	                        flag_1 = i;
-            	                        flag = true;
-            	                    }
-            	                    if(m == 33)
-            	                    {
-            	                        flag_2 = i;
-            	                    }
-            	                }
-            	                int[] enchlist = {flag_0, flag_1, flag_2};
-            	                Arrays.sort(enchlist);
-            	                for(int k = 2; k >= 0; k--)
-            	                    if(enchlist[k] >= 0)
-            	                        ench.removeTag(enchlist[k]);
-            	                if(flag_0 > -2)
-            	                    player.getHeldItemMainhand().addEnchantment(Enchantments.LOOTING, 10);
-            	                if(flag_1 >= 0 && flag)
-            	                    player.getHeldItemMainhand().addEnchantment(Enchantments.SILK_TOUCH, 1);
-            	                if(flag_2 >= 0 && !flag)
-            	                    player.getHeldItemMainhand().addEnchantment(Enchantments.FORTUNE, 10);
-            	                if(flag_1 == -1 && flag_2 == -1)
-            	                    player.getHeldItemMainhand().addEnchantment(Enchantments.FORTUNE, 10);
-            	            }
-            	        }
-            		}
-                	
-                });
-				
+                });	
 			}
 			return null;
 		}
-		
-		
 	}
-
 }

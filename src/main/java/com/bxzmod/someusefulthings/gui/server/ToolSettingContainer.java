@@ -6,6 +6,8 @@ import com.bxzmod.someusefulthings.items.ItemLoader;
 import com.bxzmod.someusefulthings.network.NetworkLoader;
 import com.bxzmod.someusefulthings.network.ToolSettingSync;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -80,46 +83,46 @@ public class ToolSettingContainer extends Container
 	public void onContainerClosed(EntityPlayer playerIn) 
 	{
 		super.onContainerClosed(playerIn);
-		NBTTagCompound dig = new NBTTagCompound();
-        dig.setInteger("dig_range", this.a);
-        dig.setInteger("dig_depth", this.b);
-        NBTTagCompound tag = new NBTTagCompound();
-		NBTTagList nbttaglist = new NBTTagList();
-		int r = this.a * 2 - 1;
-		if(this.a == 1 && this.b ==1)
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
-			NBTTagString lore = new NBTTagString(I18n.format("limitlessTool.toolmsg_0"));
-			nbttaglist.appendTag(lore);
+			EntityPlayerSP the_player = Minecraft.getMinecraft().thePlayer;
+			NBTTagCompound dig = new NBTTagCompound();
+			dig.setInteger("dig_range", this.a);
+			dig.setInteger("dig_depth", this.b);
+			NBTTagCompound tag = new NBTTagCompound();
+			NBTTagList nbttaglist = new NBTTagList();
+			int r = this.a * 2 - 1;
+			if (this.a == 1 && this.b == 1)
+			{
+				NBTTagString lore = new NBTTagString(I18n.format("limitlessTool.toolmsg_0"));
+				nbttaglist.appendTag(lore);
+			} else
+			{
+				nbttaglist.appendTag(new NBTTagString(I18n.format("limitlessTool.toolmsg_1")));
+				nbttaglist.appendTag(new NBTTagString(r + "*" + this.b + "*" + r));
+			}
+			tag.setTag("Lore", nbttaglist);
+			if (the_player.getHeldItemMainhand().getTagCompound().hasKey("dig_parameter"))
+			{
+				the_player.getHeldItemMainhand().getTagCompound().removeTag("dig_parameter");
+			}
+			the_player.getHeldItemMainhand().getTagCompound().setTag("dig_parameter", dig);
+			if (the_player.getHeldItemMainhand().getTagCompound().hasKey("display"))
+			{
+				the_player.getHeldItemMainhand().getTagCompound().removeTag("display");
+			}
+			the_player.getHeldItemMainhand().getTagCompound().setTag("display", tag);
+			if (the_player.getHeldItemMainhand().getTagCompound().hasKey("ench"))
+			{
+				the_player.getHeldItemMainhand().getTagCompound().removeTag("ench");
+			}
+			the_player.getHeldItemMainhand().getTagCompound().setTag("ench", this.ench);
+			ToolSettingSync message = new ToolSettingSync();
+			message.nbt = new NBTTagCompound();
+			message.nbt.setString("name", this.p.getName());
+			the_player.getHeldItemMainhand().writeToNBT(message.nbt);
+			NetworkLoader.instance.sendToServer(message);
 		}
-		else
-		{
-			nbttaglist.appendTag(new NBTTagString(I18n.format("limitlessTool.toolmsg_1")));
-			nbttaglist.appendTag(new NBTTagString(r + "*" + this.b + "*" + r));
-		}
-		tag.setTag("Lore", nbttaglist);
-		if(playerIn.getHeldItemMainhand().getTagCompound().hasKey("dig_parameter"))
-		{
-			playerIn.getHeldItemMainhand().getTagCompound().removeTag("dig_parameter");
-		}
-		playerIn.getHeldItemMainhand().getTagCompound().setTag("dig_parameter", dig);
-		if(playerIn.getHeldItemMainhand().getTagCompound().hasKey("display"))
-		{
-			playerIn.getHeldItemMainhand().getTagCompound().removeTag("display");
-		}
-		playerIn.getHeldItemMainhand().getTagCompound().setTag("display", tag);
-		/*
-		if(playerIn.getHeldItemMainhand().getTagCompound().hasKey("ench"))
-		{
-			playerIn.getHeldItemMainhand().getTagCompound().removeTag("ench");
-		}
-		playerIn.getHeldItemMainhand().getTagCompound().setTag("ench", this.ench);
-		/*
-		ToolSettingSync message = new ToolSettingSync();
-		message.nbt = new NBTTagCompound();
-		playerIn.getHeldItemMainhand().writeToNBT(message.nbt);
-		message.nbt.setString("name", playerIn.getName());
-		NetworkLoader.instance.sendToServer(message);
-		*/
 	}
 
 	public EntityPlayer getPlayer()

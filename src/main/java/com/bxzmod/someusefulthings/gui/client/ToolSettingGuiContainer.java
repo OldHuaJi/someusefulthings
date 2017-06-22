@@ -15,6 +15,7 @@ import com.bxzmod.someusefulthings.network.NetworkLoader;
 import com.bxzmod.someusefulthings.network.ToolSettingSync;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -25,6 +26,7 @@ import net.minecraft.init.Enchantments;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 
 public class ToolSettingGuiContainer extends GuiContainer 
 {
@@ -40,7 +42,7 @@ public class ToolSettingGuiContainer extends GuiContainer
     private static int a =1;
     private static int b =1;
     
-    EntityPlayer p;
+    EntityPlayerSP p;
 
     ToolSettingContainer gui;
     
@@ -51,7 +53,7 @@ public class ToolSettingGuiContainer extends GuiContainer
 		super(inventorySlotsIn);
 		this.xSize = 176;
         this.ySize = 133;
-        this.p = inventorySlotsIn.getPlayer();
+        this.p = Minecraft.getMinecraft().thePlayer;
         this.a = inventorySlotsIn.getRange();
         this.b = inventorySlotsIn.getDepth();
         this.gui = inventorySlotsIn;
@@ -194,12 +196,7 @@ public class ToolSettingGuiContainer extends GuiContainer
 			break;
 		case BUTTON_ENCH :
 			this.gui.setEnch();
-			this.setEnch();
 			this.ench = this.gui.getEnch();
-			ToolSettingSync message = new ToolSettingSync();
-			message.nbt = new NBTTagCompound();
-			message.nbt.setString("name", this.p.getName());
-			NetworkLoader.instance.sendToServer(message);
 			break;
 		default:
             super.actionPerformed(button);
@@ -227,56 +224,5 @@ public class ToolSettingGuiContainer extends GuiContainer
             }
             return 0;
         }
-	}
-	
-	public void setEnch()
-	{
-		int flag_0 = -1, flag_1 = -1, flag_2 = -1;
-        boolean flag = false;
-        if(this.p.getHeldItemMainhand().getItem() == ItemLoader.limitlesstool)
-        {
-            NBTTagList ench = this.p.getHeldItemMainhand().getEnchantmentTagList();
-            if(this.p.getHeldItemMainhand().getTagCompound().hasKey("RepairCost"))
-                this.p.getHeldItemMainhand().getTagCompound().removeTag("RepairCost");
-            if(ench.hasNoTags())
-            {
-                this.p.getHeldItemMainhand().addEnchantment(Enchantments.LOOTING, 10);
-                this.p.getHeldItemMainhand().addEnchantment(Enchantments.FORTUNE, 10);
-            }
-            else
-            {
-                NBTTagList enchtemp = ench.copy();
-                for (int i = 0; i < enchtemp.tagCount(); i++) 
-                {
-                    int m = ((NBTTagCompound) ench.get(i)).getShort("id");
-                    int n = ((NBTTagCompound) ench.get(i)).getShort("lvl");
-                    if(m == 21)
-                        flag_0 = n < 10 ? i : -2;
-                    if(m == 35)
-                    {
-                        flag_1 = i;
-                        flag = true;
-                    }
-                    if(m == 33)
-                    {
-                        flag_2 = i;
-                    }
-                }
-                int[] enchlist = {flag_0, flag_1, flag_2};
-                Arrays.sort(enchlist);
-                for(int k = 2; k >= 0; k--)
-                    if(enchlist[k] >= 0)
-                        ench.removeTag(enchlist[k]);
-                if(flag_0 > -2)
-                    this.p.getHeldItemMainhand().addEnchantment(Enchantments.LOOTING, 10);
-                if(flag_1 >= 0 && flag)
-                    this.p.getHeldItemMainhand().addEnchantment(Enchantments.SILK_TOUCH, 1);
-                if(flag_2 >= 0 && !flag)
-                    this.p.getHeldItemMainhand().addEnchantment(Enchantments.FORTUNE, 10);
-                if(flag_1 == -1 && flag_2 == -1)
-                    this.p.getHeldItemMainhand().addEnchantment(Enchantments.FORTUNE, 10);
-            }
-        }
-		//this.ench = this.p.getHeldItemMainhand().getEnchantmentTagList().copy();
 	}
 }
