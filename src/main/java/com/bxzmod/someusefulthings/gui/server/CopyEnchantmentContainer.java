@@ -29,6 +29,7 @@ public class CopyEnchantmentContainer extends Container
     protected CopyEnchantmentTileEntity te;
 
     protected int workTime = 0;
+    protected int storageRF = 0;
     
     ItemStack lapis_stack = new ItemStack(Items.DYE, 1 , 4);
 
@@ -169,10 +170,12 @@ public class CopyEnchantmentContainer extends Container
         super.detectAndSendChanges();
 
         this.workTime = te.getWorkTime();
+        this.storageRF = this.te.getEnergyStored(EnumFacing.UP);
 
         for (IContainerListener i : this.listeners)
         {
             i.sendProgressBarUpdate(this, GuiLoader.DATA_C_E, this.workTime);
+            i.sendProgressBarUpdate(this, GuiLoader.DATA_C_E_RF, this.storageRF);
         }
     }
 	
@@ -186,6 +189,9 @@ public class CopyEnchantmentContainer extends Container
         {
         case GuiLoader.DATA_C_E:
             this.workTime = data;
+            break;
+        case GuiLoader.DATA_C_E_RF:
+            this.storageRF = data;
             break;
         default:
             break;
@@ -202,4 +208,8 @@ public class CopyEnchantmentContainer extends Container
         return this.te.getTotalWorkTime();
     }
 
+	public int getRF()
+    {
+        return this.storageRF;
+    }
 }

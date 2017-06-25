@@ -17,6 +17,8 @@ public class ReinforcementMachineGuiContainer extends GuiContainer
     ReinforcementMachineContainer inventory;
     
     int totalWorkTime;
+    
+    int storageRF = 0;
 
 	public ReinforcementMachineGuiContainer(Container inventorySlotsIn) 
 	{
@@ -49,7 +51,9 @@ public class ReinforcementMachineGuiContainer extends GuiContainer
     {
 		String title = I18n.format("tile.reinforcementMachine.name");
 		this.fontRendererObj.drawString(title, (this.xSize - this.fontRendererObj.getStringWidth(title)) / 2, 6, 0x404040);
-		
+		this.storageRF = this.inventory.getRF();
+		String rf = "RF:" + this.storageRF;
+		this.fontRendererObj.drawString(rf, 6, 40, 0x404040);
     }
 
 }

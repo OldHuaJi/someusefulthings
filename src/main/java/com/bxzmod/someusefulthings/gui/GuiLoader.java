@@ -31,6 +31,10 @@ public class GuiLoader implements IGuiHandler
 	public static final int DATA_C_E = 2;
 	public static final int DATA_R_M = 3;
 	public static final int DATA_P_I = 4;
+	public static final int DATA_R_E_RF = 10001;
+	public static final int DATA_C_E_RF = 10002;
+	public static final int DATA_R_M_RF = 10003;
+	//public static final int DATA_P_I_RF = 10004;
 	
 	public GuiLoader(FMLInitializationEvent event)
     {

@@ -16,6 +16,8 @@ public class CopyEnchantmentGuiContainer extends GuiContainer {
     CopyEnchantmentContainer inventory;
     
     int totalWorkTime;
+    
+    int storageRF = 0;
 
 	public CopyEnchantmentGuiContainer(Container inventorySlotsIn) 
 	{
@@ -40,6 +42,7 @@ public class CopyEnchantmentGuiContainer extends GuiContainer {
         int workTime = this.inventory.getWorkTime();
 		int textureWidth = 1 + (int) Math.ceil(22.0 * workTime / this.totalWorkTime);
 		this.drawTexturedModalRect(offsetX + 112, offsetY + 21, 0, 133, textureWidth, 17);
+		
 
 	}
 	
@@ -48,7 +51,9 @@ public class CopyEnchantmentGuiContainer extends GuiContainer {
     {
 		String title = I18n.format("tile.copyEnchantment.name");
 		this.fontRendererObj.drawString(title, (this.xSize - this.fontRendererObj.getStringWidth(title)) / 2, 6, 0x404040);
-		
+		this.storageRF = this.inventory.getRF();
+		String rf = "RF:" + this.storageRF;
+		this.fontRendererObj.drawString(rf, 6, 40, 0x404040);
     }
 
 }

@@ -27,6 +27,7 @@ public class ReinforcementMachineContainer extends Container
     protected ReinforcementMachineTileEntity te;
 
     protected int workTime = 0;
+    protected int storageRF = 0;
 
 	public ReinforcementMachineContainer(EntityPlayer player, TileEntity tileEntity) 
 	{
@@ -151,10 +152,12 @@ public class ReinforcementMachineContainer extends Container
         super.detectAndSendChanges();
 
         this.workTime = te.getWorkTime();
+        this.storageRF = this.te.getEnergyStored(EnumFacing.UP);
 
         for (IContainerListener i : this.listeners)
         {
             i.sendProgressBarUpdate(this, GuiLoader.DATA_R_M, this.workTime);
+            i.sendProgressBarUpdate(this, GuiLoader.DATA_R_M_RF, this.storageRF);
         }
     }
 	
@@ -169,6 +172,9 @@ public class ReinforcementMachineContainer extends Container
         case GuiLoader.DATA_R_M:
             this.workTime = data;
             break;
+        case GuiLoader.DATA_R_M_RF:
+            this.storageRF = data;
+            break;
         default:
             break;
         }
@@ -182,6 +188,11 @@ public class ReinforcementMachineContainer extends Container
 	public int getTotalWorkTime()
     {
         return this.te.getTotalWorkTime();
+    }
+	
+	public int getRF()
+    {
+        return this.storageRF;
     }
 
 }
