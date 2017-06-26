@@ -311,9 +311,7 @@ public class UniversalTool extends ItemTool
     	subItems.add(limitlesstoolwithnbt);
     	subItems.add(limitlesstoolwithnbt1);
 	}
-	
-	
-	
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) 
 	{
@@ -378,7 +376,7 @@ public class UniversalTool extends ItemTool
 		float f8 = f3 * f5;
 		double d3 = range;
 		Vec3d vec31 = vec3.addVector(f7 * d3, f6 * d3, f8 * d3);
-		return world.rayTraceBlocks(vec3, vec31, par3);
+		return world.rayTraceBlocks(vec3, vec31, par3, true ,false);
 	}
 	
 	public void BreakOtherBlock(ItemStack itemstack, BlockPos pos, EntityPlayer player, int range, int depth, int side)
