@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.bxzmod.someusefulthings.creativetabs.CreativeTabsLoader;
 
 import baubles.api.BaubleType;
@@ -12,6 +15,7 @@ import baubles.api.IBauble;
 import baubles.api.cap.IBaublesItemHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
@@ -53,6 +57,7 @@ public class InvincibleRing extends Item implements IBauble
 		EntityPlayer player = (EntityPlayer) e;
 		if(player.isBurning())
             player.extinguish();
+		player.getEntityAttribute(SharedMonsterAttributes.LUCK).setBaseValue(1024.0D);
 		if (itemStack.getItemDamage() == 0 && player.ticksExisted % 20 == 0) 
 		{
 			player.addPotionEffect(new PotionEffect(MobEffects.HASTE, 1200, 0, true, true));
